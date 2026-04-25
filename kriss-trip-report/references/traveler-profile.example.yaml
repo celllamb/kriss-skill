@@ -1,0 +1,9 @@
+# Copy this file outside the shared skill as a local-only profile if desired.
+# Do not commit or share real personal data unless the user explicitly wants that.
+
+name: "홍길동"
+affiliation: "한국표준과학연구원"
+department: "부서명"
+title: "직위/직급"
+contact: "email@example.kr"
+

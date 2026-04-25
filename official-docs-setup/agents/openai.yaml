@@ -1,0 +1,4 @@
+interface:
+  display_name: "Official Docs First"
+  short_description: "Consult official docs for setup code"
+  default_prompt: "Use $official-docs-setup to research official documentation before writing installation or runtime code."

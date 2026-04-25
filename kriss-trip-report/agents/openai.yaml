@@ -1,0 +1,5 @@
+interface:
+  display_name: "KRISS Trip Report"
+  short_description: "Draft KRISS overseas trip reports."
+  default_prompt: "Use $kriss-trip-report to draft a KRISS overseas trip report from source materials."
+

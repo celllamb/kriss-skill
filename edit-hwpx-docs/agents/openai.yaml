@@ -1,0 +1,4 @@
+interface:
+  display_name: "HWPX Document Editing"
+  short_description: "Read, inspect, and edit Hancom HWPX documents."
+  default_prompt: "Use $edit-hwpx-docs to extract text from an HWPX file and append a short update."
