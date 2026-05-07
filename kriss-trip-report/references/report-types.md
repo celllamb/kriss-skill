@@ -1,20 +1,20 @@
-# Report Types
+# 보고서 유형
 
-Use one skill with type-specific drafting rules.
+하나의 스킬 안에서 출장 유형별 작성 규칙을 선택해 사용한다.
 
-For all report types, write final report body text in Korean bullet style (`개조식`) with concise nominal endings. Prefer endings such as `필요함`, `확인`, `논의`, `제시`, `검토 필요`, and `반영 필요`; avoid prose endings such as `필요하다`, `확인하였다`, `논의되었다`, `제시되었다`, and `검토할 필요가 있다`.
+모든 유형의 최종 보고서 본문은 한국어 개조식과 간결한 명사형 종결을 사용한다. 권장 종결: `필요함`, `확인`, `논의`, `제시`, `검토 필요`, `반영 필요`. 지양: `필요하다`, `확인하였다`, `논의되었다`, `제시되었다`, `검토할 필요가 있다`.
 
-## Meeting Type
+## 회의형
 
-Use for working group meetings, bilateral meetings, project meetings, and technical committee meetings.
+워킹그룹 회의, 양자회의, 프로젝트 회의, 기술위원회 회의에 사용한다.
 
-Purpose format:
+목적 형식:
 
 ```text
 [회의명] 참석
 ```
 
-Draft `II. 출장내용 > 주요 활동 내용` by agenda item:
+`II. 출장내용 > 주요 활동 내용`은 아젠다 항목별로 구성한다.
 
 ```text
   1. [아젠다명]
@@ -23,53 +23,54 @@ Draft `II. 출장내용 > 주요 활동 내용` by agenda item:
       - [담당자, 일정, 다음 회의, 자료 공유, 후속 실험/검토 사항]
 ```
 
-Rules:
+규칙:
 
-- Use the agenda as the top-level structure.
-- Map presentations, minutes, and transcript excerpts into the most relevant agenda item.
-- Do not invent missing agreements or follow-up plans, and do not leave source-review notes in the final body.
-- Write in Korean bullet style (`개조식`) throughout, not as long narrative paragraphs.
-- Write each agenda's updates, discussions/agreements, and follow-up plans as self-contained `      - ...` bullets without literal category labels. A third party should understand the core issue, status, decision direction, and next action without opening the source materials.
-- For major agenda items, target roughly one HWPX page per agenda. Use 6-10 substantive bullets when the source material supports it; short administrative items may be shorter.
-- Avoid final-report phrases such as `확인 필요`, `자료상`, `입력자료`, `첨부자료`, `제공된 자료`, `녹취록 확인`, and `회의록 확인`.
-- Insert at most one representative slide, meeting photo, or figure per agenda item, only when it materially supports the summary. Choose the single image that best represents the agenda's topic, result, KRISS contribution, decision, or timeline. Place it after the agenda bullets and keep the text sufficient even if the image is removed.
-- Keep `III. 시사점 및 특이사항` limited to the meeting content itself.
-- Write `시사점` in readable Korean bullet style. Prefer several short bullets or indented sub-bullets over long paragraph-like bullets.
-- Leave `건의사항` blank or ask the user for the content; do not invent recommendations.
-- Write `특이사항` around issues that were discussed as agenda-level points of contention, risk, disagreement, or decision pressure.
-- In `특이사항`, write each issue group as a numbered item such as `1. [쟁점명]`, then write its details as indented `      - ...` sub-bullets.
-- In `IV. 기타자료`, summarize collected meeting/report materials by type, such as agenda, presentations, minutes, transcripts, recordings, photos, and institutional materials. Do not include travel evidence documents in `수집자료`.
-- Treat airline tickets and boarding passes as travel-entry/departure proof materials, not as collected meeting materials.
-- Insert boarding-pass/airline-ticket and/or immigration-certificate evidence images when the user expects evidence to be included, after masking 주민등록번호, 여권번호, and 외국인등록번호. Render the full evidence page and place each evidence category on a separate HWPX page when possible.
+- 아젠다를 최상위 구조로 사용한다.
+- 발표자료, 회의록, 전사본 발췌를 가장 관련 있는 아젠다 항목에 매핑한다.
+- 없는 합의나 후속계획을 만들지 않는다. 원자료 검토 메모를 최종 본문에 남기지 않는다.
+- 긴 산문 문단이 아니라 한국어 개조식으로 쓴다.
+- 각 아젠다의 진행상황, 논의/합의, 후속계획은 literal category label 없이 독립적인 `      - ...` bullet로 쓴다. 제3자가 원자료를 열지 않아도 핵심 쟁점, 상태, 결정 방향, 다음 action을 이해할 수 있어야 한다.
+- 주요 아젠다는 원자료가 충분하면 대략 HWPX 1쪽 분량을 목표로 한다. 실질적 bullet 6-10개를 사용하되, 짧은 행정 항목은 더 짧아도 된다.
+- 최종 보고서에는 `확인 필요`, `자료상`, `입력자료`, `첨부자료`, `제공된 자료`, `근거`, `회의 메모`, `발표자료 없음`, `녹취록 확인`, `회의록 확인` 같은 문구를 넣지 않는다.
+- 아젠다당 대표 슬라이드, 회의 사진, 그림은 많아야 1개만 넣는다. 의제의 기술 내용, 결과, 결정, 위험, 후속 action을 실질적으로 뒷받침할 때만 사용한다. 이미지를 제거해도 텍스트만으로 보고서 내용이 이해되어야 한다.
+- 모든 아젠다에 이미지를 강제로 넣지 않는다. 후보가 일정표, 프로그램, 제목, 참석자 목록, 등록/장소 안내, 건물 사진 등 행정/context 슬라이드뿐이면 생략한다. 선택 이미지는 한 문장으로 보고서 내용과의 관련성을 설명할 수 있어야 한다.
+- `III. 시사점 및 특이사항`은 회의 내용 자체와 관련된 사항으로 제한한다.
+- `시사점`은 읽기 쉬운 개조식으로 쓴다. 긴 bullet보다 짧은 bullet 또는 하위 bullet을 선호한다.
+- `건의사항`은 사용자가 제공하지 않으면 비워 두거나 묻는다. 임의로 만들지 않는다.
+- `특이사항`은 아젠다 차원의 쟁점, 위험, 의견차, 의사결정 압박, 일정 변경 등을 중심으로 쓴다.
+- `특이사항`의 쟁점 제목은 `1. [쟁점명]`처럼 번호형으로 쓰고 세부 내용은 들여쓴 `      - ...` bullet로 쓴다.
+- `IV. 기타자료`의 `수집자료`에는 아젠다, 발표자료, 회의록, 전사본, 녹음, 사진, 기관자료 등 회의/보고서 원자료를 유형별로 요약한다. 항공권과 보딩패스 같은 여행 증빙은 넣지 않는다.
+- 항공권과 보딩패스는 출입국 입증 자료이다.
+- 사용자가 증빙 첨부를 기대하는 경우, 주민등록번호, 여권번호, 외국인등록번호를 마스킹한 뒤 보딩패스/항공권 및/또는 출입국 사실증명 이미지를 넣는다. 가능하면 전체 증빙 페이지를 렌더링하고 증빙 범주별로 별도 HWPX 페이지에 배치한다.
 
-## Overseas Conference Type
+## 국외학회형
 
-Use for academic conferences, symposia, workshops, and poster or oral presentations.
+학술대회, 심포지엄, 워크숍, 구두발표, 포스터 발표에 사용한다.
 
-Purpose format:
+목적 형식:
 
 ```text
 [학회명] 참석
 ```
 
-Organize activities by day, session, or presentation:
+활동 내용은 날짜, 세션, 발표 단위로 구성한다.
 
 - 발표/참석 세션
 - 주요 연구동향
 - KRISS 업무와의 관련성
 - 네트워킹 및 후속 협력 가능성
 
-## Dispatched Research Type
+## 파견연구형
 
-Use for overseas laboratory stays, joint experiments, training, and dispatched research.
+국외 연구실 체류, 공동실험, 교육훈련, 파견연구에 사용한다.
 
-Purpose format:
+목적 형식:
 
 ```text
 [기관명/프로그램명] 파견연구 수행
 ```
 
-Organize activities by work package or date:
+활동 내용은 work package 또는 날짜별로 구성한다.
 
 - 연구/실험 수행 내용
 - 사용 장비와 방법

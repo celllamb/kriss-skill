@@ -1,10 +1,10 @@
-# Template Structure
+# 보고서 양식 구조
 
-The bundled template is `assets/kriss-overseas-trip-report-template.hwpx`.
+기본 양식은 `assets/kriss-overseas-trip-report-template.hwpx`이다.
 
-It is a single-section HWPX document with paragraph-style content, not a table. The original title is `국외출장보고서 표준 양식`.
+이 양식은 표가 아니라 문단형 단일 section HWPX 문서이다. 원래 제목은 `국외출장보고서 표준 양식`이다.
 
-## Required Sections
+## 필수 절
 
 ```text
 I. 출장개요
@@ -35,28 +35,29 @@ IV. 기타자료
     - 출입국 사실증명서
 ```
 
-## Writing Conventions
+## 작성 관례
 
-- Keep the purpose short and official.
-- Use evidence-based dates for the period.
-- For `대상국가 및 방문기관`, write one comprehensive location/institution line. Do not list daily rooms or sub-venues unless the user explicitly asks.
-- Use agenda or itinerary order for activity summaries.
-- Do not put working notes or source-gap phrases in the final body. Avoid `확인 필요`, `자료상`, `입력자료`, `첨부자료`, `제공된 자료`, `녹취록 확인`, and `회의록 확인`.
-- When a required fact cannot be derived, ask the user before finalizing or leave the specific item blank if the template permits it.
-- Follow the privacy rules in `privacy.md`; do not keep the template's privacy-warning sentence in the final report.
-- Treat italic/helper text in the standard template as writing instructions, not final report content.
-- Remove helper lines such as `성명, 소속, 연락처 등`, `성명, 국가, 소속, 연락처, 면담내용, 면담일시 등`, `제목, 저자, 발행처, 발행년도 등`, and `개인정보(주민등록번호 등) 반드시 삭제 요망` from the final report.
-- Keep the gift receipt/declaration checkbox lines unchanged unless the user explicitly provides final checked values:
+- 목적은 짧고 공식적인 문구로 쓴다.
+- 기간은 증빙 기반 날짜를 사용한다.
+- `대상국가 및 방문기관`에는 포괄적인 국가/도시/기관 한 줄을 쓴다. 사용자가 요청하지 않으면 일별 회의실이나 세부 장소를 나열하지 않는다.
+- 활동 요약은 아젠다나 일정표 순서에 맞춘다.
+- 최종 본문에는 작업 메모나 원자료 공백 표시를 넣지 않는다. 금지 예: `확인 필요`, `자료상`, `입력자료`, `첨부자료`, `제공된 자료`, `근거`, `회의 메모`, `발표자료 없음`, `녹취록 확인`, `회의록 확인`.
+- 필수 사실을 원자료에서 도출할 수 없으면 최종화 전에 사용자에게 묻거나, 양식이 허용하면 해당 항목만 비워 둔다.
+- `privacy.md`의 개인정보 규칙을 따른다. 양식에 들어 있는 개인정보 삭제 안내 문구는 최종 보고서에 남기지 않는다.
+- 표준 양식의 이탤릭/도움말성 문구는 작성 지침이지 최종 보고서 내용이 아니다.
+- `성명, 소속, 연락처 등`, `성명, 국가, 소속, 연락처, 면담내용, 면담일시 등`, `제목, 저자, 발행처, 발행년도 등`, `개인정보(주민등록번호 등) 반드시 삭제 요망` 같은 도움말 행은 최종 보고서에서 제거한다.
+- 사용자가 최종 체크값을 명시하지 않으면 선물수령/선물신고 체크박스 행은 그대로 둔다.
   - `선물수령 여부 : □ 예. □ 아니오.`
   - `선물신고 여부 : □ 예. □ 아니오.`
-- Under each `○` item, write actual content as `      - ...` sub-bullets.
-- Under `○ 주요 활동 내용`, agenda numbers such as `1. ...` may follow directly, but indent them beneath the `○` item.
-- For meeting reports, cover updates, discussions/agreements, and follow-up plans with label-less `      - ...` sub-bullets. Do not write literal labels such as `업데이트 사항:`, `논의 사항 및 합의 사항:`, or `추후 계획:` in the final activity bullets.
-- Write `주요 활동 내용` in Korean bullet style (`개조식`). For substantive agenda items, use enough bullets to reach about one HWPX page per agenda when source material supports it.
-- Use concise Korean nominal/bullet-style endings in final report bullets. Prefer endings such as `필요함`, `확인`, `논의`, `제시`, `검토 필요`, and `반영 필요`; avoid prose endings such as `필요하다`, `확인하였다`, `논의되었다`, `제시되었다`, and `검토할 필요가 있다`.
-- If adding an agenda slide, meeting photo, or figure, insert no more than one representative image per agenda and keep it near the related agenda bullets. Choose the single slide/photo/figure that best represents the agenda's topic, result, KRISS contribution, decision, or timeline. Do not include multiple slides under one agenda; omit the image when no representative slide exists.
-- Write `시사점` and `특이사항` in readable Korean bullet style (`개조식`). Avoid long paragraph-like bullets; split complex points into short bullets or indented sub-bullets.
-- In `특이사항`, use numbered issue-group headings (`1. ...`, `2. ...`) and reserve hyphen bullets for details under each issue group. This keeps issue-group headings visually distinct from their subordinate detail bullets.
-- Do not list travel evidence documents in `수집자료`; reserve that list for meeting/report source materials.
-- Insert evidence images used for `출입국 입증 자료` after masking 주민등록번호, 여권번호, and 외국인등록번호. If an airline ticket or boarding pass exists, include it together with the immigration fact certificate unless the user asks otherwise. Evidence images should show the full document page, not a cropped excerpt, and each evidence category should start on its own page when generating HWPX.
-- When generating HWPX, embed images as PNG files in `BinData` following `references/hwpx-hancom-compat-notes.md`.
+- 각 `○` 항목 아래 실제 내용은 `      - ...` 하위 bullet로 쓴다.
+- `○ 주요 활동 내용` 아래에는 `1. ...` 형식의 아젠다 번호가 바로 올 수 있으나, `○` 항목 아래에 들여쓴다.
+- 회의형 보고서는 업데이트, 논의/합의, 후속계획을 `      - ...` bullet에 녹여 쓴다. 최종 활동 bullet에 `업데이트 사항:`, `논의 사항 및 합의 사항:`, `추후 계획:` 같은 literal label을 쓰지 않는다.
+- `주요 활동 내용`은 한국어 개조식으로 쓴다. 실질적 아젠다는 원자료가 충분할 때 아젠다당 대략 HWPX 1쪽 분량이 되도록 충분한 bullet을 사용한다.
+- 최종 보고서 bullet은 간결한 명사형/개조식 종결을 쓴다. 권장: `필요함`, `확인`, `논의`, `제시`, `검토 필요`, `반영 필요`. 지양: `필요하다`, `확인하였다`, `논의되었다`, `제시되었다`, `검토할 필요가 있다`.
+- 아젠다 슬라이드, 회의 사진, 그림을 넣을 경우 아젠다당 대표 이미지 1개 이하로 제한하고 관련 bullet 가까이에 둔다. 회의의 기술 내용, 결과, 결정, 위험, 후속 action을 가장 잘 대표하는 단일 이미지를 선택한다.
+- 이미지를 억지로 넣지 않는다. 후보가 일정표, 프로그램, 제목 슬라이드, 참석자 목록, 등록/장소 안내, 건물 사진, 행정/context 슬라이드뿐이면 해당 아젠다 자체가 일정/행정이 아닌 한 생략한다. 선택한 이미지는 한 문장으로 해당 의제 내용에 왜 중요한지 설명 가능해야 한다.
+- `시사점`과 `특이사항`은 읽기 쉬운 한국어 개조식으로 쓴다. 긴 문단형 bullet은 나누어 쓴다.
+- `특이사항`에서는 번호형 쟁점 제목(`1. ...`, `2. ...`)을 쓰고, 세부 사항은 그 아래 hyphen bullet로 둔다.
+- 여행 증빙은 `수집자료`에 넣지 않는다. `수집자료`는 회의/보고서 원자료용이다.
+- `출입국 입증 자료`에 들어가는 증빙 이미지는 주민등록번호, 여권번호, 외국인등록번호를 마스킹한 뒤 삽입한다. 항공권 또는 보딩패스가 있으면 사용자가 달리 요청하지 않는 한 출입국 사실증명과 함께 넣는다. 증빙 이미지는 cropped excerpt가 아니라 전체 문서 페이지를 보여야 하며, HWPX 생성 시 증빙 범주별로 별도 페이지에서 시작하게 한다.
+- HWPX 생성 시 이미지는 `references/hwpx-hancom-compat-notes.md`에 따라 `BinData`에 PNG로 삽입한다.

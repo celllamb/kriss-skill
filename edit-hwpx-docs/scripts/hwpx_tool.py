@@ -146,6 +146,55 @@ def extract_section_text(data: bytes) -> List[str]:
     return lines
 
 
+def validate_section_layout_refs(section: str, root: ET.Element) -> List[str]:
+    errors: List[str] = []
+    paragraphs = [elem for elem in root.iter() if local_name(elem.tag) == "p"]
+    for index, paragraph in enumerate(paragraphs, start=1):
+        text = paragraph_text(paragraph)
+        text_len = len(text)
+        paragraph_id = paragraph.get("id", "")
+
+        char_count = paragraph.get("charCnt")
+        if char_count and char_count.isdigit() and int(char_count) != text_len:
+            errors.append(
+                f"{section} paragraph {index} id={paragraph_id}: charCnt={char_count} "
+                f"but text length is {text_len}"
+            )
+
+        for elem in paragraph.iter():
+            if local_name(elem.tag) != "lineseg":
+                continue
+            text_pos = elem.get("textpos", "0")
+            if text_pos.lstrip("-").isdigit() and int(text_pos) > text_len:
+                snippet = text[:80].replace("\n", " ")
+                errors.append(
+                    f"{section} paragraph {index} id={paragraph_id}: hp:lineseg textpos={text_pos} "
+                    f"exceeds text length {text_len}; HWP2018 may reject the file. "
+                    f"Text starts: {snippet!r}"
+                )
+    return errors
+
+
+def repair_section_layout_refs(root: ET.Element) -> int:
+    fixes = 0
+    for paragraph in [elem for elem in root.iter() if local_name(elem.tag) == "p"]:
+        text_len = len(paragraph_text(paragraph))
+
+        char_count = paragraph.get("charCnt")
+        if char_count and char_count.isdigit() and int(char_count) != text_len:
+            paragraph.set("charCnt", str(text_len))
+            fixes += 1
+
+        for elem in paragraph.iter():
+            if local_name(elem.tag) != "lineseg":
+                continue
+            text_pos = elem.get("textpos", "0")
+            if text_pos.lstrip("-").isdigit() and int(text_pos) > text_len:
+                elem.set("textpos", str(text_len))
+                fixes += 1
+    return fixes
+
+
 def extract_text_from_updates(
     zf: zipfile.ZipFile,
     updates: Optional[Dict[str, bytes]] = None,
@@ -272,7 +321,9 @@ def command_validate(args: argparse.Namespace) -> int:
             for entry in ("Contents/content.hpf", "Contents/header.xml", *sections):
                 if entry in names:
                     try:
-                        parse_xml(zf.read(entry))
+                        root = parse_xml(zf.read(entry))
+                        if entry in sections:
+                            errors.extend(validate_section_layout_refs(entry, root))
                     except ET.ParseError as exc:
                         errors.append(f"XML parse error in {entry}: {exc}")
 
@@ -308,6 +359,8 @@ def replace_in_section(data: bytes, old: str, new: str) -> Tuple[bytes, int]:
             occurrences = elem.text.count(old)
             elem.text = elem.text.replace(old, new)
             count += occurrences
+    if count:
+        repair_section_layout_refs(root)
     return serialize_xml(root), count
 
 
@@ -375,6 +428,8 @@ def append_paragraphs_to_section(data: bytes, paragraphs_to_add: Sequence[str]) 
             p_attrs["id"] = str(max_id + offset)
         else:
             p_attrs.pop("id", None)
+        if "charCnt" in p_attrs:
+            p_attrs["charCnt"] = str(len(text))
 
         paragraph = ET.Element(qname(hp_ns, "p"), p_attrs)
         run = ET.SubElement(paragraph, qname(hp_ns, "run"), run_attrs)

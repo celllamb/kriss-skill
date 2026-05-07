@@ -1,45 +1,66 @@
-# Source Materials
+# 원자료 처리
 
-Use source materials to build a trip dossier before drafting the report.
+보고서 작성 전 원자료를 정리해 출장 dossier를 만든다.
 
-## Source Priority
+## 원자료 우선순위
 
-For `출장개요`:
+`출장개요`에는 다음 순서를 우선한다.
 
-1. Immigration certificate, boarding pass, or airline ticket for departure/entry dates.
-2. Agenda, invitation, itinerary, and meeting announcement for meeting name, venue, country, and institution.
-3. Presentation cover slides and participant lists for host organizations and interviewees.
-4. User-provided traveler profile for traveler name, affiliation, title, and contact.
+1. 출국/입국일: 출입국 사실증명, 보딩패스, 항공권
+2. 회의명, 장소, 국가, 기관: 공식 아젠다, 초청장, 일정표, 회의 공지
+3. 방문기관 및 면담자: 발표자료 표지, 참석자 명단
+4. 출장자 성명, 소속, 직위, 연락처: 사용자 제공 출장자 프로필
 
-For `출장내용`:
+`출장내용`에는 다음 순서를 우선한다.
 
-1. Agenda or program for top-level organization.
-2. Meeting materials, presentations, and minutes for updates, discussions, agreements, and follow-up plans.
-3. Recordings only after a reliable transcript exists. If recordings are provided as a ZIP archive, prepare them with `scripts/prepare_recordings.py` first; use a separate transcription skill/tool when transcript creation is needed.
-4. Photos as supporting evidence for attendance or visit context, not as the primary source for technical conclusions.
+1. 최상위 구성: 공식 아젠다 또는 프로그램
+2. 내용: 회의자료, 발표자료, 회의록에서 확인되는 업데이트, 논의, 합의, 후속계획
+3. 녹음: 신뢰 가능한 전사본이 있을 때만 사용한다. 녹음 ZIP이 제공되면 `scripts/prepare_recordings.py`로 먼저 정리한다. 전사 생성은 별도 전사 도구/스킬의 범위이다.
+4. 사진: 기술 결론의 주 원자료가 아니라 참석 또는 방문 맥락을 보조하는 자료로 사용한다.
 
-## Material Types
+## 원자료-아젠다 매칭
 
-- Agenda/program: extract meeting name, dates, venue, agenda items, speakers, and expected outputs.
-- Presentations: extract title, authors, institutions, key technical updates, conclusions, proposed next steps, and candidate slide pages.
-- Minutes: extract decisions, actions, owners, dates, and unresolved issues.
-- Recordings: inventory audio files and recording ZIP archives, then use linked transcript files to map statements to agenda items. Transcript creation itself belongs to a separate transcription skill/tool. Do not draft unsupported technical conclusions from untranscribed audio.
-- Tickets/boarding passes/immigration certificates: use for period and `출입국 입증 자료`; check privacy rules before attachment. Do not list these travel evidence files under `수집자료`.
-- Photos: use to identify site, participants, or event context when useful; avoid identifying people unless needed for the report.
+아젠다 기반 회의에서는 보고서 작성 또는 대폭 수정 전에 원자료-아젠다 매칭표를 만든다.
 
-## Final Report Hygiene
+매칭표에는 다음 열을 포함한다.
 
-- Use source materials to write the report, but do not refer to the provided file set as an external dependency in the final body.
-- Do not write statements such as `provided materials show`, `source file indicates`, `check transcript`, or `meeting minutes needed` in the final report.
-- Attach rendered evidence images only after visual privacy review. Mask only 주민등록번호, 여권번호, and 외국인등록번호 by default.
-- Use a full-page rendering for evidence documents so all visible content, seals, dates, barcodes, and verification blocks remain readable. Do not use cropped screenshots for final evidence pages.
-- If an airline ticket or boarding pass is available, attach it as travel proof together with the immigration fact certificate unless the user requests a single proof type.
+- `Agenda item`: 날짜, 시간대, 공식 항목 번호/제목, 세션명
+- `Source`: 파일명 및 가능한 경우 page/slide/sheet
+- `Role`: 아젠다, 발표자료, 참여기관 결과, 회의록/action 후속조치, 출입국 증빙, 사후 wrap-up, 사용자 확인 맥락
+- `Use in report`: 보고서의 어느 절 또는 bullet을 뒷받침하는지
+- `Status`: matched, supporting/admin, user-confirmed context, source conflict, needs user confirmation
 
-## Conflicts
+규칙:
 
-When dates or institutions conflict:
+- 실질적 발표자료나 기술 원자료는 보고서 본문에 사용하기 전에 반드시 공식 아젠다/프로그램 항목에 연결한다.
+- 출입국 증빙은 기술 아젠다 항목이 필요 없다. 출장기간과 `출입국 입증 자료`에 연결한다.
+- 회의록, 액션시트, Gantt 차트, wrap-up 노트는 원 발표 세션이 아니라 검토/action/wrap-up 항목에 연결할 수 있다.
+- 원자료가 아젠다/프로그램 항목 또는 명확한 행정/증빙 역할에 연결되지 않으면 사용 전에 사용자에게 묻는다.
+- 여러 자료의 내용과 유사한 그림은 매칭표와 사용자 확인 맥락을 기준으로 배치한다. 같은 기술 주제가 나중 workshop deck에 보인다는 이유만으로, 실제 논의가 Good News Stories였던 그림을 나중 workshop 밑에 두지 않는다.
+- 원자료의 날짜와 행사 출처를 보존한다. 특정 날짜 회의의 발표자료 세트라면, 회의록·메모·전사본·사용자 확인 없이 나중 합동회의나 workshop update의 원자료로 재사용하지 않는다. 특정 날짜에 아젠다/회의록/메모만 있으면 그날 내용은 작업 메모나 추적표에서 그렇게 분류하되, 최종 보고서 본문에는 작성근거 설명을 쓰지 않는다.
 
-- Prefer immigration/boarding evidence for travel period.
-- Prefer official agenda or invitation for meeting dates and venue.
-- Prefer presentation title slides for presenter names and institutions.
-- Ask the user before choosing between conflicting evidence.
+## 자료 유형별 사용
+
+- 아젠다/프로그램: 회의명, 날짜, 장소, 의제, 발표자, 예상 산출물 추출
+- 발표자료: 제목, 저자, 기관, 핵심 기술 업데이트, 결론, 제안된 다음 단계, 후보 이미지 페이지 추출
+- 회의록: 결정사항, action, 담당자, 일정, 미해결 쟁점 추출
+- 녹음: 오디오와 녹음 ZIP을 inventory하고 연결된 전사본으로 발언을 아젠다 항목에 매핑한다. 전사 생성 자체는 별도 도구 범위이다. 전사되지 않은 오디오에서 기술 결론을 작성하지 않는다.
+- 항공권/보딩패스/출입국 사실증명: 기간과 `출입국 입증 자료`에 사용한다. 이 여행 증빙을 `수집자료`에 넣지 않는다.
+- 사진: 장소, 참석, 행사 맥락 확인에 사용한다. 보고서에 꼭 필요하지 않으면 인물 식별을 피한다.
+
+## 최종 보고서 위생
+
+- 원자료를 바탕으로 쓰되, 최종 본문에서 제공된 파일 세트를 외부 의존성처럼 언급하지 않는다.
+- `provided materials show`, `source file indicates`, `check transcript`, `meeting minutes needed` 같은 문장을 최종 보고서에 쓰지 않는다. 한국어로도 `자료상`, `근거`, `회의 메모`, `발표자료 없음` 같은 작성근거 문구를 본문에 넣지 않는다.
+- 증빙 이미지는 시각적 개인정보 검토 후 첨부한다. 기본 마스킹 대상은 주민등록번호, 여권번호, 외국인등록번호뿐이다.
+- 증빙 문서는 도장, 날짜, 바코드, 검증 블록이 읽히도록 전체 페이지로 렌더링한다. 최종 증빙에 cropped screenshot을 쓰지 않는다.
+- 항공권 또는 보딩패스가 있으면 사용자가 하나만 요청하지 않는 한 출입국 사실증명과 함께 첨부한다.
+
+## 충돌 처리
+
+날짜나 기관이 충돌할 때:
+
+- 출장기간은 출입국/보딩 증빙을 우선한다.
+- 회의 날짜와 장소는 공식 아젠다 또는 초청장을 우선한다.
+- 발표자 이름과 기관은 발표자료 표지를 우선한다.
+- 동등한 원자료가 충돌하면 사용자에게 묻고 확정한다.

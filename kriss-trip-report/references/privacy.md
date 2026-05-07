@@ -1,27 +1,26 @@
-# Privacy Rules
+# 개인정보 보호 규칙
 
-Final reports and attached evidence must not expose these three identifiers:
+최종 보고서와 첨부 증빙에는 아래 세 가지 보호 식별자가 노출되면 안 된다.
 
 - 주민등록번호
 - 여권번호
 - 외국인등록번호
 
-Apply these rules to immigration certificates, boarding passes, airline tickets, passport copies, scanned images, OCR text, transcripts, and any copied source material.
+이 규칙은 출입국 사실증명, 보딩패스, 항공권, 여권 사본, 스캔 이미지, OCR 텍스트, 전사본, 원자료에서 복사한 모든 내용에 적용한다.
 
-## Handling
+## 처리 원칙
 
-1. If one of the three identifiers appears in extracted text, mask it before using the text in notes, dossier files, or reports.
-2. If one of the three identifiers appears in an image or scanned PDF and the exact location is clear, create or request a masked copy before attaching it.
-3. If the source is scanned and text extraction returns nothing, do not assume it is safe. Ask the user for a masked copy or inspect the rendered image before attachment.
-4. Do not mask other information unless the user requests it. Airline reservation numbers, ticket numbers, QR codes, barcodes, emails, phone numbers, and names are not part of this skill's default masking rule.
-5. Never recreate, infer, or restate a protected identifier in the body text.
+1. 세 보호 식별자 중 하나가 추출 텍스트에 보이면 메모, dossier, 보고서에 사용하기 전에 마스킹한다.
+2. 세 보호 식별자 중 하나가 이미지나 스캔 PDF에 보이고 위치가 명확하면, 첨부 전에 마스킹본을 만들거나 사용자에게 요청한다.
+3. 스캔 자료에서 텍스트가 추출되지 않는다고 안전하다고 가정하지 않는다. 첨부 전 렌더링 이미지를 직접 확인하거나 사용자에게 마스킹본을 요청한다.
+4. 사용자가 요청하지 않는 한 다른 정보는 기본 마스킹 대상이 아니다. 항공 예약번호, 티켓번호, QR 코드, 바코드, 이메일, 전화번호, 성명은 이 스킬의 기본 마스킹 대상이 아니다.
+5. 보호 식별자를 본문에 다시 만들거나, 추론하거나, 재기재하지 않는다.
 
-## Text Masking Patterns
+## 텍스트 마스킹 패턴
 
-Use conservative masking for:
+다음은 보수적으로 마스킹한다.
 
-- 13-digit Korean resident/foreign registration patterns such as `######-#######`.
-- Label-based passport patterns such as `passport no`, `passport number`, `여권번호`, or `여권 번호` followed by an alphanumeric token.
+- `######-#######` 형태의 13자리 주민등록번호/외국인등록번호 패턴
+- `passport no`, `passport number`, `여권번호`, `여권 번호` 같은 라벨 뒤에 나오는 영숫자 토큰
 
-Pattern-based masking is a backstop, not proof. Evidence images still require visual review before final attachment.
-
+패턴 기반 마스킹은 보조 안전장치일 뿐이다. 최종 첨부 전 증빙 이미지는 반드시 시각적으로 검토한다.

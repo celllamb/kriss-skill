@@ -1,9 +1,8 @@
-# Copy this file outside the shared skill as a local-only profile if desired.
-# Do not commit or share real personal data unless the user explicitly wants that.
+# 필요하면 이 파일을 공유 스킬 밖으로 복사해 로컬 전용 출장자 프로필로 사용한다.
+# 사용자가 명시적으로 원하지 않는 한 실제 개인정보를 commit하거나 공유하지 않는다.
 
 name: "홍길동"
 affiliation: "한국표준과학연구원"
 department: "부서명"
 title: "직위/직급"
 contact: "email@example.kr"
-

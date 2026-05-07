@@ -1,48 +1,48 @@
-# Recording And Transcript Workflow
+# 녹음 및 전사본 처리
 
-Use this reference when the source materials include meeting recordings, audio files, or ZIP archives of recordings.
+회의 녹음, 오디오 파일, 녹음 ZIP이 원자료로 제공되었을 때 이 문서를 사용한다.
 
-## Basic Rule
+## 기본 원칙
 
-Recordings are supporting source material, but report facts must come from a reliable transcript or from written meeting materials. Do not draft technical conclusions directly from untranscribed audio.
+녹음은 보조 원자료이지만, 보고서의 사실관계는 신뢰 가능한 전사본 또는 문서형 회의자료에서 가져와야 한다. 전사되지 않은 오디오에서 기술 결론을 직접 작성하지 않는다.
 
-## Accepted Inputs
+## 입력 가능 자료
 
-The skill can inventory and prepare:
+이 스킬은 다음 자료를 목록화하고 준비할 수 있다.
 
-- Audio files: `.m4a`, `.mp3`, `.wav`, `.aac`, `.flac`, `.ogg`
-- Recording ZIP archives containing audio files
-- Transcript files: `.txt`, `.md`, `.srt`, `.vtt`
-- ZIP archives containing both audio and transcript files
+- 오디오 파일: `.m4a`, `.mp3`, `.wav`, `.aac`, `.flac`, `.ogg`
+- 오디오 파일이 들어 있는 녹음 ZIP
+- 전사본 파일: `.txt`, `.md`, `.srt`, `.vtt`
+- 오디오와 전사본이 함께 들어 있는 ZIP
 
-## Preparation
+## 준비 절차
 
-Run `scripts/prepare_recordings.py` when recordings or recording ZIPs are provided.
+녹음 또는 녹음 ZIP이 있으면 `scripts/prepare_recordings.py`를 실행한다.
 
-Inventory only:
+목록만 만들 때:
 
 ```powershell
 python scripts\prepare_recordings.py recordings.zip --output-dir run\recordings
 ```
 
-Extract/copy files into a workspace:
+파일을 작업 폴더로 추출/복사할 때:
 
 ```powershell
 python scripts\prepare_recordings.py recordings.zip --output-dir run\recordings --extract
 ```
 
-Outputs:
+출력:
 
-- `recording-index.md`: human-readable recording/transcript table and drafting cautions.
-- `recording-manifest.json`: structured recording/transcript manifest.
-- `audio/`: extracted/copied recordings when `--extract` is used.
-- `transcripts/`: extracted/copied transcripts when `--extract` is used.
+- `recording-index.md`: 사람이 읽는 녹음/전사본 표와 작성 주의사항
+- `recording-manifest.json`: 구조화된 녹음/전사본 manifest
+- `audio/`: `--extract` 사용 시 추출/복사된 녹음
+- `transcripts/`: `--extract` 사용 시 추출/복사된 전사본
 
-## Transcript Matching
+## 전사본 매칭
 
-The preparation script links recordings and transcripts by same or similar filename stem.
+준비 스크립트는 파일명 stem이 같거나 유사한 녹음과 전사본을 연결한다.
 
-Recommended naming:
+권장 파일명:
 
 ```text
 meeting-day1-session1.m4a
@@ -51,38 +51,38 @@ meeting-day1-session2.m4a
 meeting-day1-session2.srt
 ```
 
-If a recording has no matching transcript, the index marks it as not usable for report facts until transcribed.
+녹음에 대응 전사본이 없으면, 전사 전까지 보고서 사실관계에 사용할 수 없다고 index에 표시된다.
 
-## Transcription Boundary
+## 전사 범위
 
-Transcription conversion is handled outside this skill. When audio needs to be transcribed, use a separate transcription skill or approved speech-to-text tool, then provide the transcript files back to this workflow.
+전사 변환은 이 스킬 밖에서 수행한다. 오디오 전사가 필요하면 별도 전사 스킬 또는 승인된 speech-to-text 도구를 사용하고, 생성된 전사본 파일을 이 워크플로에 다시 제공한다.
 
-After external transcription, rerun `prepare_recordings.py` on the audio workspace and transcript folder so the manifest links recordings to transcript files:
+외부 전사 후에는 오디오 작업 폴더와 전사본 폴더를 대상으로 `prepare_recordings.py`를 다시 실행해 manifest가 녹음과 전사본을 연결하게 한다.
 
 ```powershell
 python scripts\prepare_recordings.py run\recordings\audio run\recordings\transcripts --output-dir run\recordings-linked
 ```
 
-Only linked transcript files should be used as report sources.
+보고서 원자료로는 연결된 전사본만 사용한다.
 
-## Drafting From Transcripts
+## 전사본을 사용한 작성
 
-When a transcript is available:
+전사본이 있을 때:
 
-- Map transcript excerpts to agenda items by date, session number, slide title, speaker, or explicit agenda wording.
-- Use transcript content to supplement written agenda, minutes, and presentation material.
-- Prefer official agenda/minutes/presentation files when transcript text conflicts with written sources, unless the transcript clearly records a later decision or correction.
-- Do not quote long transcript passages in the report. Summarize in Korean bullet style.
-- Do not include uncertainty markers such as `녹취록 확인 필요` in the final report body.
+- 날짜, 세션 번호, 슬라이드 제목, 발화자, 명시적 아젠다 표현을 기준으로 전사본 발췌를 아젠다 항목에 매핑한다.
+- 전사본은 공식 아젠다, 회의록, 발표자료를 보완하는 용도로 쓴다.
+- 전사본이 문서 원자료와 충돌하면 공식 아젠다/회의록/발표자료를 우선한다. 단, 전사본이 이후 결정이나 현장 수정사항을 명확히 기록한 경우는 예외로 검토한다.
+- 보고서에 긴 전사본 인용을 넣지 않는다. 한국어 개조식으로 요약한다.
+- 최종 본문에 `녹취록 확인 필요` 같은 불확실성 표시를 넣지 않는다.
 
-When no transcript is available:
+전사본이 없을 때:
 
-- Include the recording in the dossier/inventory only.
-- Do not use the recording as a factual basis for the report body.
-- Ask for a transcript or use a separate transcription skill/tool, then rerun `prepare_recordings.py` to link the generated transcript files.
+- 녹음은 dossier/inventory에만 포함한다.
+- 녹음을 보고서 본문의 사실 근거로 사용하지 않는다.
+- 사용자에게 전사본을 요청하거나 별도 전사 도구/스킬을 사용한 뒤, 생성된 전사본을 연결하기 위해 `prepare_recordings.py`를 다시 실행한다.
 
-## Final Report Treatment
+## 최종 보고서 처리
 
-In `수집자료`, list recordings only when they were actually used or supplied as meeting/report source material. A concise category such as `회의 녹음자료 및 전사본` is sufficient. Do not list each audio filename unless requested.
+`수집자료`에는 녹음이 실제로 제공되었거나 사용된 회의/보고서 원자료인 경우에만 요약해 넣는다. `회의 녹음자료 및 전사본`처럼 간결한 범주명으로 충분하다. 요청이 없으면 각 오디오 파일명을 나열하지 않는다.
 
-Do not put recordings under `출입국 입증 자료`; travel evidence is limited to airline tickets, boarding passes, immigration certificates, and similar travel proof documents.
+녹음은 `출입국 입증 자료`가 아니다. 출입국 입증 자료는 항공권, 보딩패스, 출입국 사실증명 등 여행 증빙으로 제한한다.

@@ -1,5 +1,4 @@
 interface:
-  display_name: "KRISS Trip Report"
-  short_description: "Draft KRISS overseas trip reports."
-  default_prompt: "Use $kriss-trip-report to draft a KRISS overseas trip report from source materials."
-
+  display_name: "KRISS 국외출장보고서"
+  short_description: "KRISS 국외출장보고서 작성·감사"
+  default_prompt: "Use $kriss-trip-report to 원자료 기반 KRISS 국외출장보고서를 작성하거나 감사하세요."

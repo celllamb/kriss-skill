@@ -1,87 +1,116 @@
 ---
 name: kriss-trip-report
-description: Create Korea Research Institute of Standards and Science (KRISS) 국외출장보고서 from meeting, conference, dispatched-research, agenda, recording/transcript, presentation, itinerary, boarding-pass, immigration-certificate, and trip-photo materials; use when drafting or generating HWPX reports with the KRISS overseas trip report template.
+description: KRISS(한국표준과학연구원) 국외출장보고서를 회의, 학회, 파견연구, 아젠다, 회의록, 녹취록/전사본, 발표자료, 일정표, 항공권, 보딩패스, 출입국 사실증명, 출장사진 등 원자료에서 작성·수정·감사할 때 사용한다. HWPX 보고서 초안 작성, 기존 KRISS 국외출장보고서와 원자료 간 불일치 점검, 출처 기반 수정에 사용한다.
 ---
 
-# KRISS Trip Report
+# KRISS 국외출장보고서
 
-## Overview
+## 개요
 
-Use this skill to organize source materials and draft a KRISS 국외출장보고서 in the bundled HWPX template. It supports meeting-type, overseas-conference-type, and dispatched-research-type trips, including agenda-driven technical meetings.
+이 스킬은 제공된 원자료를 정리하고, 포함된 HWPX 양식으로 KRISS 국외출장보고서를 작성하거나 기존 보고서를 원자료와 대조해 수정할 때 사용한다. 회의형, 국외학회형, 파견연구형 출장을 모두 다루며, 특히 아젠다 기반 기술회의 보고서에 맞춰져 있다.
 
-## Always Read
+## 항상 먼저 읽을 문서
 
-Before drafting, read:
+보고서 작성 전에 필요한 범위만 읽는다.
 
-- `references/privacy.md` for required masking rules.
-- `references/template-structure.md` for the HWPX report sections.
-- `references/source-materials.md` for source priority and extraction rules.
-- `references/report-types.md` for the selected trip type.
-- `references/hwpx-hancom-compat-notes.md` before generating or editing image-bearing HWPX files.
-- `references/recordings.md` when meeting recordings, audio files, transcripts, or recording ZIP archives are provided.
+- `references/privacy.md`: 개인정보 마스킹 규칙
+- `references/template-structure.md`: HWPX 보고서 양식 구조
+- `references/source-materials.md`: 원자료 우선순위, 추출, 원자료-아젠다 매칭 규칙
+- `references/source-audit.md`: 최종화 전 원자료 대조 감사 규칙
+- `references/report-types.md`: 회의형/학회형/파견연구형 보고서별 작성 규칙
+- `references/hwpx-hancom-compat-notes.md`: 이미지 포함 HWPX 생성·수정 전 HWP/HWP2018 호환성 규칙
+- `references/recordings.md`: 녹음, 오디오, 전사본, 녹음 ZIP이 제공된 경우의 처리 규칙
 
-## Workflow
+## 작업 흐름
 
-1. Build a source inventory.
-   - Use `scripts/build_dossier.py` on the provided folder, ZIP, PDFs, and evidence files.
-   - When recordings or recording ZIP archives are provided, run `scripts/prepare_recordings.py` to create a recording manifest and link matching transcript files when present.
-   - Transcription conversion is intentionally out of scope for this skill. If audio must be transcribed, use a separate transcription skill/tool first, place transcript files next to the recordings or in a transcript folder, then rerun `prepare_recordings.py` so this skill can link and use the transcript files.
-   - Treat recordings as source material only after a reliable transcript exists; if no transcript is available, ask for one or use other written sources first.
-   - Keep scanned immigration certificates or boarding passes out of final output until the three protected identifiers have been checked.
+1. 원자료 목록을 만든다.
+   - 제공된 폴더, ZIP, PDF, 증빙 파일에 대해 `scripts/build_dossier.py`를 사용한다.
+   - 아젠다 기반 회의에서는 보고서 작성 전에 원자료-아젠다 매칭표를 만든다. 모든 실질적 원자료를 공식 아젠다/프로그램의 날짜, 시간, 세션, 항목, 보고서 내 역할에 연결한다.
+   - 항공권, 보딩패스, 출입국 사실증명, 액션시트, 회의록, Gantt 차트, 사후 wrap-up 자료는 기술 의제가 아니라 출장개요, 증빙, 후속조치, 행정 근거로 별도 분류한다.
+   - 실질적 원자료가 아젠다/프로그램 항목, 증빙 범주, 액션/회의록 항목, 사용자 확인 맥락 중 어디에도 연결되지 않으면 그 자료로 보고서를 작성하지 말고 사용자에게 확인한다.
+   - 슬라이드나 그림이 여러 맥락에 걸쳐 재사용 가능해 보이면 파일명이나 시각적 유사성만으로 배치하지 않는다. 원자료-아젠다 매칭표와 사용자 확인 맥락에 따라 배치하고 추적표에 기록한다.
+   - 녹음 또는 녹음 ZIP이 제공되면 `scripts/prepare_recordings.py`로 녹음 목록과 전사본 연결 상태를 만든다.
+   - 녹음의 전사 변환은 이 스킬의 범위가 아니다. 전사가 필요하면 별도 전사 도구/스킬을 사용하고, 생성된 전사본을 녹음 옆이나 전사본 폴더에 둔 뒤 `prepare_recordings.py`를 다시 실행한다.
+   - 신뢰 가능한 전사본이 있을 때만 녹음을 원자료로 사용한다. 전사본이 없으면 사용자에게 요청하거나 다른 문서 원자료를 우선 사용한다.
+   - 스캔된 출입국 사실증명이나 보딩패스는 주민등록번호, 여권번호, 외국인등록번호 노출 여부를 확인하기 전까지 최종 보고서에 넣지 않는다.
 
-2. Determine the trip type.
-   - `meeting`: agenda, meeting material, minutes, recordings, and participant presentations drive the report.
-   - `conference`: conference program, accepted abstract, presentation, poster, and session notes drive the report.
-   - `dispatched-research`: host institution, research plan, daily work log, experiment notes, and outputs drive the report.
+2. 출장 유형을 정한다.
+   - `meeting`: 아젠다, 회의자료, 회의록, 전사본, 발표자료가 보고서의 중심이다.
+   - `conference`: 학회 프로그램, 채택 초록, 구두/포스터 발표자료, 세션 노트가 중심이다.
+   - `dispatched-research`: 방문기관, 연구계획, 일별 수행기록, 실험노트, 산출물이 중심이다.
 
-3. Fill `I. 출장개요`.
-   - Purpose: use `"[회의명] 참석"` for meeting-type trips and `"[학회명] 참석"` for conference-type trips.
-   - Period: derive from boarding pass, ticket, or immigration certificate; use departure and entry dates as the primary basis.
-   - Countries and host institutions: write one encompassing country/city/institution line rather than listing every room, day, or sub-venue.
-   - Traveler information: request it from the user or a local traveler profile; do not store private user data in this shared skill.
-   - Interviewee information: infer from presentation material, agenda, participant list, email signatures, or transcript speakers. Do not invent contacts or meeting dates.
+3. `I. 출장개요`를 채운다.
+   - 목적: 회의형은 `"[회의명] 참석"`, 학회형은 `"[학회명] 참석"` 형식을 사용한다.
+   - 기간: 항공권, 보딩패스, 출입국 사실증명에서 출국일과 입국일을 우선 확인한다.
+   - 대상국가 및 방문기관: 일별 회의실을 나열하지 말고 국가/도시/기관을 아우르는 한 줄로 작성한다.
+   - 출장자 인적사항: 사용자 제공 정보 또는 로컬 전용 출장자 프로필에서 확인한다. 이 공유 스킬 안에 실제 개인정보를 저장하지 않는다.
+   - 면담자 인적사항: 발표자료, 아젠다, 참석자 명단, 이메일 서명, 전사본 발화자에서 추론한다. 연락처나 면담일을 꾸며내지 않는다.
 
-4. Draft `II. 출장내용`.
-   - For meeting-type trips, use agenda items as the top-level units under `주요 활동 내용`.
-   - Write in Korean bullet style (`개조식`) throughout. Avoid long narrative paragraphs in the final report body.
-   - End final report bullets in concise Korean nominal/bullet-style endings, such as `필요함`, `확인`, `논의`, `제시`, `검토 필요`, or `반영 필요`. Avoid prose sentence endings such as `필요하다`, `확인하였다`, `논의되었다`, `제시되었다`, or `검토할 필요가 있다`.
-   - For each agenda, write enough self-contained detail for a reader to understand the meeting content without opening the source files. For major agenda items, target roughly one HWPX page per agenda, usually 6-10 substantive `      - ...` sub-bullets plus one optional supporting image.
-   - Cover updates, discussions/agreements, and follow-up plans, but do not label those categories explicitly in the final text. Write them as plain `      - ...` sub-bullets.
-   - Do not include drafting trace text such as `확인 필요`, `자료상`, `입력자료`, `첨부자료`, `제공된 자료`, `녹취록 확인`, or `회의록 확인` in the final report body. Resolve the point from sources, ask the user, or leave the appropriate field blank.
-   - If a representative slide, meeting photo, or figure exists for an agenda, insert at most one image immediately after that agenda's bullets. Choose one image that best represents that agenda's topic, result, KRISS contribution, decision, or timeline. Do not attach multiple slides to one agenda; omit the image when no clearly representative slide exists. The image supplements the written summary and does not replace it.
+4. `II. 출장내용`을 작성한다.
+   - 회의형 출장에서는 `주요 활동 내용` 아래의 최상위 단위를 아젠다 항목으로 구성한다.
+   - 최종 보고서는 한국어 개조식으로 작성하고 긴 서술형 문단을 피한다.
+   - 보고서 bullet은 `필요함`, `확인`, `논의`, `제시`, `검토 필요`, `반영 필요` 같은 간결한 명사형/개조식 종결을 사용한다. `필요하다`, `확인하였다`, `논의되었다`, `제시되었다`, `검토할 필요가 있다` 같은 산문형 종결은 피한다.
+   - 회의에 참석하지 않은 측정표준 종사자도 이해할 수 있게 쓴다. `HFTLS`, `CMC claim`, `measurand`처럼 내부 약어나 영어 표현만 남기지 말고 `CMC 청구범위`, `핵심비교 결과가 뒷받침하는 측정범위`, `측정대상 수`처럼 직관적 한국어를 먼저 사용한다.
+   - 각 아젠다는 원자료를 열어보지 않아도 핵심 내용을 이해할 수 있을 정도로 독립적으로 쓴다. 주요 의제는 원자료가 충분할 때 대략 HWPX 1쪽 분량, 보통 실질적 `      - ...` 하위 bullet 6-10개와 선택적 대표 이미지 1개를 목표로 한다.
+   - 업데이트, 논의/합의, 후속계획을 모두 반영하되 최종 본문에 `업데이트`, `논의사항`, `추후계획` 같은 범주명을 노출하지 않는다. 평문 `      - ...` bullet로 작성한다.
+   - 최종 본문에는 작성 흔적을 넣지 않는다. 금지 예: `확인 필요`, `자료상`, `입력자료`, `첨부자료`, `제공된 자료`, `근거`, `회의 메모`, `발표자료 없음`, `녹취록 확인`, `회의록 확인`, `아젠다 기반`, `메모 기반`. 출처와 작성 근거는 작업 메모, 감사 메모, 추적표에만 남긴다.
+   - 보고서 본문은 회의 내용 자체에 집중한다. 어떤 자료를 사용했는지, 발표자료가 있었는지, 원자료를 어떻게 분류했는지 같은 작성 과정 설명을 본문에 쓰지 않는다.
+   - 기관 비중을 균형 있게 둔다. KRISS 참여나 발표는 공식 보고에 필요한 정도로만 언급하고, 타 NMI 활동, 방법, 비교연구 진행상황, 액션아이템, 국제 측정 동향 확인이라는 출장 목적이 가려지지 않게 한다.
+   - 아젠다당 대표 이미지는 많아야 1개만 사용한다. 이미지를 생략하기 전에 같은 아젠다 원자료에서 더 적합한 대체 그림이 있는지 확인한다.
+   - 대표 슬라이드, 회의 사진, 그림은 그래프, 결과 패턴, 실험 흐름, 측정모델, 개념도, 수식/모델 구조, 의미 있는 시각 비교처럼 텍스트로 옮기면 의미가 약해지는 경우에만 아젠다 bullet 바로 뒤에 넣는다.
+   - 모든 아젠다에 이미지를 억지로 넣지 않는다. 일정표, 액션 목록, 결과 요약표, 로드맵 텍스트, 제목 슬라이드, 참석자 목록, 등록/장소 안내, 일반 텍스트 bullet은 본문 텍스트로 요약한다. 선택한 이미지는 “이 이미지는 ___를 시각적으로 보여 주며, 텍스트로 줄이면 ___가 손실된다”는 한 문장 설명을 통과해야 한다.
 
-5. Draft `III. 시사점 및 특이사항`.
-   - Keep this section limited to the meeting content itself.
-   - Write `시사점` in readable Korean bullet style. Prefer several short bullets or indented sub-bullets over long paragraph-like bullets.
-   - Leave `건의사항` blank or ask the user for content; do not invent recommendations.
-   - Write `특이사항` in readable Korean bullet style around issues that were discussed as agenda-level points of contention, risk, disagreement, or decision pressure.
-   - In `특이사항`, write each issue group as a numbered item such as `1. [쟁점명]`, then write its details as indented `      - ...` sub-bullets. Do not use `- [쟁점명]` for an issue group heading because it is visually indistinguishable from the detail bullets.
-   - Keep gift receipt and gift declaration checkbox lines unchanged unless the user explicitly provides final checked values.
+5. `III. 시사점 및 특이사항`을 작성한다.
+   - 회의 내용과 직접 관련된 내용만 쓴다.
+   - `시사점`은 읽기 쉬운 개조식 bullet로 쓴다. 긴 문단형 bullet보다 짧은 bullet 또는 들여쓴 하위 bullet을 선호한다.
+   - `건의사항`은 사용자가 제공하지 않으면 비워 두거나 사용자에게 묻는다. 임의로 만들지 않는다.
+   - `특이사항`은 아젠다 차원에서 실제로 논의된 쟁점, 위험, 의견차, 의사결정 압박, 일정 변경 같은 항목 중심으로 쓴다.
+   - `특이사항`에서는 `1. [쟁점명]` 같은 번호형 쟁점 제목을 쓰고, 세부 내용은 들여쓴 `      - ...` bullet로 쓴다. 쟁점 제목을 `- [쟁점명]`으로 쓰지 않는다.
+   - 선물수령 및 선물신고 체크박스는 사용자가 최종 값을 명시하지 않는 한 그대로 둔다.
 
-6. Draft `IV. 기타자료`.
-   - In `수집자료`, summarize only meeting/report source materials by type, such as agenda, minutes, presentations, photos, transcripts, and institutional materials. Do not include travel evidence documents in `수집자료`.
-   - Treat airline tickets and boarding passes as travel-entry/departure proof materials, not as collected meeting materials.
-   - When an airline ticket or boarding pass is available, include it under `출입국 입증 자료` together with any immigration fact certificate unless the user explicitly asks to attach only one proof type.
-   - Insert the available boarding pass/airline-ticket copy and/or immigration fact certificate image as evidence. Mask 주민등록번호, 여권번호, and 외국인등록번호 before insertion.
-   - Render evidence as full-page images when possible. Put each evidence category on its own page so the contents remain readable.
+6. `IV. 기타자료`를 작성한다.
+   - `수집자료`에는 회의/보고서 원자료만 유형별로 요약한다. 예: 아젠다, 회의록, 발표자료, 사진, 전사본, 기관자료. 항공권과 보딩패스는 수집자료가 아니다.
+   - 항공권과 보딩패스는 출입국 입증 자료로 취급한다.
+   - 항공권 또는 보딩패스가 있으면 사용자가 하나만 첨부하라고 하지 않는 한 출입국 사실증명과 함께 `출입국 입증 자료`에 넣는다.
+   - 보딩패스/항공권 사본 및 출입국 사실증명 이미지를 넣기 전에 주민등록번호, 여권번호, 외국인등록번호를 마스킹한다.
+   - 증빙 이미지는 가능하면 전체 페이지로 렌더링한다. 각 증빙 범주는 별도 페이지에서 시작하게 하여 읽을 수 있게 한다.
 
-7. Generate or update HWPX.
-   - Use the template at `assets/kriss-overseas-trip-report-template.hwpx`.
-   - Use `scripts/render_pdf_pages.py` to render selected presentation, boarding-pass, or certificate PDF pages to PNG when Ghostscript is available. Keep the default 200 dpi or higher for evidence pages that must remain readable after insertion.
-   - Use `scripts/draft_hwpx_from_markdown.py` for text drafts and drafts with rendered slide/evidence images.
-   - The HWPX draft script normalizes inserted images to RGB PNG before packaging, caps embedded image edges, and stores `BinData/` entries without ZIP recompression. This mirrors Hancom Office `InsertPicture` output more closely than hand-authored JPEG/BMP variants, which can appear as broken picture objects in some HWPX viewers.
-   - Do not encode source pixel dimensions directly as display dimensions. HWP-compatible picture XML uses page-sized HWP units for `orgSz`, `imgRect`, and `sz`, `curSz` set to `0`, and original-image crop units for `imgClip`/`imgDim`.
-   - The scripts auto-detect bundled Codex Python packages and can install missing Python dependencies (`pypdf`, `Pillow`, and `PyMuPDF` fallback for PDF rendering) when needed. Set `KRISS_TRIP_REPORT_NO_AUTO_INSTALL=1` to disable automatic installation and receive the exact `pip install` command instead.
-   - Validate generated HWPX with the HWPX editing/validation workflow available in the environment.
-   - Run `scripts/validate_hwpx_images.py` on every generated report that contains images. It must pass before final delivery.
-   - When Hancom Office is available, perform a round-trip check: keep a byte-for-byte copy of the generated HWPX, open it in Hancom Office, save as a separate HWPX, then run `scripts/compare_hwpx_packages.py before.hwpx after.hwpx`. Hancom Office may rewrite `content.hpf`, `header.xml`, `section0.xml`, `Preview/*`, and container metadata; accept that only when `image_payloads_unchanged` and `only_hancom_normalized_entries` are true. If image payloads are changed or dropped, treat the generated file as not deliverable and revise the image XML/encoding.
-   - For slide/image insertion, render selected slides separately and insert only after privacy and sensitivity review. Check that each inserted image has a matching PNG file in `BinData`, `content.hpf` manifest item, and `hc:img binaryItemIDRef` reference before final delivery.
+7. 초안을 원자료와 대조 감사한다.
+   - 실질적 보고서 최종화 전, 또는 사용자가 불일치를 물을 때는 가능한 경우 별도 컨텍스트 감사자를 사용한다.
+   - `references/source-audit.md`에 따라 일반 보고서는 독립 감사자 1명, 기술적으로 조밀하거나 원자료가 많은 보고서는 분야별 복수 감사자를 선택한다.
+   - 감사자는 현재 대화 컨텍스트를 fork하지 않은 새 컨텍스트로 시작한다. 원자료 경로, 초안 보고서 경로 또는 추출 텍스트, 원자료 폴더/파일 목록, 출장 유형, 감사 체크리스트만 전달한다. 의심되는 오류, 내가 고치려는 방향, 기존 결론은 전달하지 않는다.
+   - 감사 결과는 자동 수정 가능한 확정 불일치, 사용자 확인 필요, 약하거나 과도하게 특정적인 주장, 원자료 간 충돌, 연구번호/내용 불일치, 레이아웃/렌더링 위험, 슬라이드 첨부 적합성 문제, HWPX 호환성 문제, 증빙 누락, 개인정보/증빙 문제로 분류하게 한다.
+   - 감사 결과를 반영해 확정 불일치는 수정하고, 약한 주장은 완화하거나 제거하며, 맥락 의존 충돌은 사용자에게 묻고, 원자료 충돌은 남겨 표시한 뒤 다시 검증한다.
+   - 세션 제목과 실제 참여/결과를 구분한다. 원자료가 명시적으로 뒷받침하지 않으면 KRISS나 특정 기관이 비교연구, pilot, task group, team에 참여했다고 쓰지 않는다.
+   - 모든 연구번호를 실제 분석대상, 측정대상, 물질, 참여기관, 결과 유형, 마감일, 액션아이템과 대조한다. 연구번호와 내용이 섞인 오류는 우선순위 높은 감사 항목이다.
+   - 이후 wrap-up이나 사용자 설명이 기존 아젠다/발표자료와 충돌하는 일정 변경·회의 맥락은 자동 확정하지 않는다. 사용자 확인 목록에 넣고 제안 문구를 함께 제시한다.
+   - 사용자가 개별 원자료와 보고서 일치 여부를 묻는 경우, 보고서 주장, 원자료, 상태, 해결 내용을 담은 source trace matrix를 만들거나 갱신한다.
+   - 사용자가 일정표/아젠다와 비교를 요구하는 경우, 보고서를 수정하기 전에 source-to-agenda matrix를 만들거나 갱신한다. Good News Story 그림을 유사한 later workshop 그림으로 잘못 배치하는 문제처럼 날짜/세션 오류를 탐지한다.
+   - 사용자가 확인한 구두 맥락이나 회의 중 맥락은 `user-confirmed context`로 보존한다. 제공 파일에 없다는 이유만으로 제거하지 않는다.
+   - 긴 혼합언어 bullet, 잘림/겹침 위험, 한 문장으로 관련성을 설명할 수 없는 슬라이드 이미지는 감사 항목으로 보고 최종 전달 전에 수정한다.
+   - subagent를 사용할 수 없으면 같은 감사를 로컬에서 수행하고 작업 메모에 로컬 감사임을 명시한다.
 
-## Missing Information
+8. HWPX를 생성하거나 수정한다.
+   - 기본 양식은 `assets/kriss-overseas-trip-report-template.hwpx`를 사용한다.
+   - 발표자료, 항공권, 증명서 PDF 페이지를 PNG로 렌더링할 때는 Ghostscript가 있으면 `scripts/render_pdf_pages.py`를 사용한다. 증빙 페이지는 삽입 후에도 읽을 수 있도록 기본 200 dpi 이상을 유지한다.
+   - 텍스트 초안 및 이미지 포함 초안은 `scripts/draft_hwpx_from_markdown.py`를 사용한다.
+   - 초안 생성 스크립트는 삽입 이미지를 RGB PNG로 정규화하고, 큰 이미지를 제한하며, `BinData/` 항목을 ZIP 무압축으로 저장한다. 이는 수작업 JPEG/BMP보다 Hancom Office `InsertPicture` 결과와 더 가깝다.
+   - 원본 픽셀 크기를 표시 크기로 직접 쓰지 않는다. HWP 호환 그림 XML은 표시 크기용 HWP 단위를 `orgSz`, `imgRect`, `sz`에 쓰고, `curSz`는 `0`, 원본 이미지 crop 단위는 `imgClip`/`imgDim`에 쓴다.
+   - 스크립트는 Codex 번들 Python 패키지를 자동 감지하고 필요 시 `pypdf`, `Pillow`, PDF 렌더링 fallback용 `PyMuPDF`를 설치할 수 있다. 자동 설치를 막으려면 `KRISS_TRIP_REPORT_NO_AUTO_INSTALL=1`을 설정한다.
+   - 생성된 HWPX는 환경의 HWPX 편집/검증 절차로 검증한다.
+   - 이미지가 들어간 모든 보고서에 `scripts/validate_hwpx_images.py`를 실행한다. 최종 전달 전 통과해야 한다. 이 검증기는 bullet 단축 후 실제 문단 길이를 넘어서는 `hp:lineseg textpos` 같은 HWP2018 민감 오류도 잡는다.
+   - Hancom Office가 있으면 round-trip 검증을 수행한다. 생성본을 보존하고 Hancom Office에서 열어 별도 HWPX로 저장한 뒤 `scripts/compare_hwpx_packages.py before.hwpx after.hwpx`를 실행한다. Hancom Office가 `content.hpf`, `header.xml`, `section0.xml`, `Preview/*`, 컨테이너 metadata를 다시 쓰는 것은 `image_payloads_unchanged`와 `only_hancom_normalized_entries`가 true일 때 허용한다.
+   - Windows에서 비대화식 Hancom Office round-trip 검증을 할 때는 먼저 보안 승인 모듈 등록을 확인한다. `assets/hwp-security-module/`에 DLL이 있으면 `scripts/install_hwp_security_module.ps1 -Force`를 실행한 뒤 `scripts/hwp2018_roundtrip.ps1 input.hwpx output.hwpx -Force`를 사용한다. round-trip helper는 `RegisterModule(...)=False`를 실패로 처리한다. `SetMessageBoxMode`만으로는 파일 접근 보안창이 사라지지 않는다.
+   - 슬라이드/이미지 삽입은 별도로 렌더링하고 개인정보 및 민감성 검토 후 수행한다. 삽입 이미지마다 `BinData` PNG, `content.hpf` manifest 항목, `hc:img binaryItemIDRef`가 일치하는지 확인한다.
+   - HWP2018 최종본에서는 `BinData/*`와 `Contents/content.hpf` manifest 항목을 수작업으로 추가/삭제하지 않는다. XML 검증이 통과해도 HWP2018이 손상/변조 경고를 낼 수 있다.
+   - HWP2018 전달본에서 이미지를 제거해야 하면 보이는 `hp:pic` 문단만 제거하고 기존 package payload와 manifest는 보존하거나 Hancom Office round-trip 삽입/삭제를 사용한다. 이로 인해 미참조 `BinData` 경고가 남더라도, `image_payloads_unchanged`가 true이고 보이는 이미지 참조가 유효하면 호환성 tradeoff로 기록한다.
+   - Hancom Office가 설치된 경우 최종 HWP2018 열기 가능성을 실제 Hancom engine으로 확인한다. 일반 ZIP/XML 검증만 믿지 않는다. COM `Open(..., 'HWPX', '')`가 `False`이면 최종 전달 불가이다.
 
-Ask the user only for facts that cannot be derived from sources, especially:
+## 사용자에게 물어야 하는 정보
 
-- Traveler name, affiliation, title, and contact.
-- Gift receipt/declaration status.
-- Confirmation when evidence dates conflict with itinerary dates.
-- Masked copies of evidence when protected identifiers appear and automatic masking is not reliable.
+원자료에서 도출할 수 없는 사실만 묻는다.
+
+- 출장자 성명, 소속, 직위, 연락처
+- 선물수령/선물신고 여부
+- 증빙 날짜와 일정표 날짜가 충돌할 때 최종 출장기간 확인
+- 보호 식별자가 이미지에 보이는데 자동 마스킹을 신뢰하기 어려운 경우, 마스킹된 증빙 사본

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate embedded image references in a generated HWPX file."""
+"""Validate embedded image references and HWP2018-sensitive layout refs."""
 
 from __future__ import annotations
 
@@ -103,6 +103,35 @@ def inspect_picture_dimensions(pic: ET.Element) -> tuple[list[str], list[str]]:
     return errors, warnings
 
 
+def paragraph_text(paragraph: ET.Element) -> str:
+    return "".join(t.text or "" for t in paragraph.findall(".//hp:t", NS))
+
+
+def inspect_paragraph_layout(section: str, paragraph_index: int, paragraph: ET.Element) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    text = paragraph_text(paragraph)
+    text_len = len(text)
+    paragraph_id = paragraph.get("id", "")
+
+    char_count = paragraph.get("charCnt")
+    if char_count and char_count.isdigit() and int(char_count) != text_len:
+        errors.append(
+            f"{section} paragraph {paragraph_index} id={paragraph_id}: charCnt={char_count} but text length is {text_len}"
+        )
+
+    for line_seg in paragraph.findall(".//hp:lineseg", NS):
+        text_pos = line_seg.get("textpos", "0")
+        if text_pos.lstrip("-").isdigit() and int(text_pos) > text_len:
+            snippet = text[:80].replace("\n", " ")
+            errors.append(
+                f"{section} paragraph {paragraph_index} id={paragraph_id}: "
+                f"hp:lineseg textpos={text_pos} exceeds text length {text_len}; "
+                f"HWP2018 may reject the file. Text starts: {snippet!r}"
+            )
+    return errors, warnings
+
+
 def inspect_hwpx(path: Path) -> dict[str, object]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -123,10 +152,13 @@ def inspect_hwpx(path: Path) -> dict[str, object]:
                 root = ET.fromstring(zf.read(section))
                 parent_map = {child: parent for parent in root.iter() for child in list(parent)}
                 paragraph_ids: list[str] = []
-                for paragraph in root.findall(".//hp:p", NS):
+                for paragraph_index, paragraph in enumerate(root.findall(".//hp:p", NS), start=1):
                     paragraph_id = paragraph.get("id")
                     if paragraph_id:
                         paragraph_ids.append(paragraph_id)
+                    layout_errors, layout_warnings = inspect_paragraph_layout(section, paragraph_index, paragraph)
+                    errors.extend(layout_errors)
+                    warnings.extend(layout_warnings)
                 duplicate_ids = sorted({value for value in paragraph_ids if paragraph_ids.count(value) > 1})
                 if duplicate_ids:
                     warnings.append(f"{section} has repeated hp:p id values: {', '.join(duplicate_ids[:5])}")
