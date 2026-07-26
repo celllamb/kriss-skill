@@ -31,6 +31,7 @@ Skill은 Codex가 특정 작업을 더 안정적으로 수행하도록 돕는 �
 | `edit-hwpx-docs` | 범용 | 한컴 HWPX 문서에서 텍스트를 뽑거나, 간단한 문구를 바꾸거나, HWP2018에서 민감한 문단 레이아웃 참조까지 포함해 문서 패키지 구조를 검증해야 할 때 |
 | `kriss-trip-report` | KRISS 전용 | KRISS 국외출장보고서를 회의 자료, 발표자료, 일정표, 탑승권, 출입국 증빙, 사진, 전사본 등을 바탕으로 작성하거나, 작성된 보고서를 원자료와 대조 감사하고 HWPX 최종본을 검증해야 할 때 |
 | `official-docs-setup` | 범용 | 설치/실행 명령뿐 아니라 보고서, 계획서, 제안서, 발표자료에서 제품·서비스·표준·정책·프로그램 정보를 공식 문서 기준으로 확인하게 하고 싶을 때 |
+| `claude-review-loop` | 프로젝트 전용 | Codex가 구현·테스트를 담당하고 Claude Code의 읽기 전용 리뷰를 한 회차씩 반복하며 승인 fingerprint를 확인해야 할 때 |
 
 ## 설치 방법
 
@@ -134,7 +135,10 @@ kriss-trip-report 스킬을 사용해서 제공한 출장 자료를 바탕으로
 Use $edit-hwpx-docs. 이 HWPX 파일의 본문을 추출하고 요약해줘.
 Use $kriss-trip-report. 이 출장 자료 폴더를 바탕으로 국외출장보고서 초안을 만들어줘.
 Use $official-docs-setup. 이 프로젝트 실행 방법을 공식 문서 기준으로 정리해줘.
+Use $claude-review-loop. 이 저장소 변경을 구현하고 테스트한 뒤 Claude Code 읽기 전용 리뷰가 승인할 때까지 반복해줘.
 ```
+
+`claude-review-loop`는 저장소의 `.agents/skills/claude-review-loop/`에 두는 프로젝트 전용 스킬입니다. 사용 시 Codex가 `.review/`에 임시 리뷰 상태를 기록하며, 이 디렉터리는 커밋하지 않습니다.
 
 ## 스킬별 안내
 
@@ -273,6 +277,16 @@ python .\edit-hwpx-docs\scripts\validate_skill.py .\edit-hwpx-docs
 python .\edit-hwpx-docs\scripts\hwpx_tool.py validate .\some-output.hwpx
 python .\kriss-trip-report\scripts\validate_hwpx_images.py .\some-report.hwpx
 ```
+
+### claude-review-loop verification
+
+Run the project-scoped review skill's unit tests from the repository root:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+The optional integration test is enabled only with `RUN_CLAUDE_REVIEW_INTEGRATION=1`. Each `$claude-review-loop` invocation performs one read-only Claude Code round and records temporary state in `.review/`; Codex applies valid findings and starts the next round. The runner returns `0` for approval, `2` for requested changes, and distinct non-approval codes for unavailable CLI, configuration, execution, invalid response, and no-progress states.
 
 `edit-hwpx-docs`의 기본 도구는 Python 표준 라이브러리만 사용합니다. `hwpx_tool.py validate`와 `validate_hwpx_images.py`는 XML 파싱뿐 아니라 HWP2018에서 문제가 될 수 있는 `charCnt`, `hp:lineseg textpos` 불일치도 확인합니다.
 

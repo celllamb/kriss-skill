@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude Review Loop"
+  short_description: "Iterate changes through read-only Claude reviews"
+  default_prompt: "Use $claude-review-loop to implement a request, test it, and iterate with read-only Claude reviews until approval."

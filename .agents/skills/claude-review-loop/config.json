@@ -1,0 +1,7 @@
+{
+  "model": "opus",
+  "required_model_family": "opus-5",
+  "effort": "max",
+  "timeout_seconds": null,
+  "max_turns": null
+}
