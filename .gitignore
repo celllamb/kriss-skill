@@ -1,3 +1,9 @@
 __pycache__/
 *.py[cod]
+.pytest_cache/
+
+# Per-task Codex–Claude review state and logs.
 .review/
+
+# Generated PPTX healthcheck demo and roundtrip artifacts.
+pptx-compatibility/demo/
