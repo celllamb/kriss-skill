@@ -268,6 +268,155 @@ Use $official-docs-setup. 이 발표자료에 들어갈 제품 기능 요약을 
 
 Codex 외 다른 도구에 같은 원칙을 옮겨야 한다면 `official-docs-setup/references/portable-prompts.md`의 프롬프트 조각을 사용할 수 있습니다.
 
+### claude-review-loop
+
+`claude-review-loop`는 이 저장소의 변경을 Codex가 구현하고 테스트한 뒤, Claude Code가 한 회차씩 읽기 전용으로 검토하도록 하는 프로젝트 전용 스킬입니다. 사용자가 `$claude-review-loop`을 명시적으로 호출했을 때만 사용합니다.
+
+#### 전체 워크플로와 직접 실행의 차이
+
+일반 사용자는 Codex에 다음처럼 요청합니다.
+
+```text
+Use $claude-review-loop. 현재 저장소 변경을 구현하고 테스트한 뒤 Claude Code가 승인할 때까지 반복해줘.
+```
+
+이 호출은 Codex가 구현, 테스트, `.review/request.json` 갱신, Claude finding 수정, 재검토를 조정하는 전체 워크플로입니다. 한 번의 Claude 호출이 끝났다고 자동으로 승인하는 것이 아니며, `approved`와 동일한 변경 fingerprint가 확인될 때만 다음 단계로 진행합니다.
+
+`run_review.py`를 직접 실행하면 Claude Code 읽기 전용 리뷰 한 회차만 실행합니다. 직접 실행은 구현이나 finding 수정, 반복 조정을 대신하지 않습니다.
+
+아래의 Claude 리뷰 실행 명령을 직접 사용하려면 먼저 `.review/request.json`이 있어야 합니다. 이 파일의 스키마와 현재 변경 내용은 `.agents/skills/claude-review-loop/SKILL.md`를 따르며, 일반적으로는 `$claude-review-loop` 전체 워크플로를 수행하는 Codex가 작성·갱신합니다. `--help`와 `--print-fingerprint`는 Claude 리뷰를 호출하지 않으므로 이 전제조건이 필요하지 않습니다.
+
+Windows PowerShell:
+
+```powershell
+python .\.agents\skills\claude-review-loop\scripts\run_review.py
+```
+
+POSIX shell:
+
+```bash
+python3 .agents/skills/claude-review-loop/scripts/run_review.py
+```
+
+현재 명령행 옵션은 설치된 runner에서 `--help`로 확인합니다.
+
+경로를 바꿔야 할 때는 `--repo-root`(저장소), `--config`(config.json), `--review-dir`(review 상태 디렉터리), `--request`(request.json)를 사용할 수 있습니다.
+
+```powershell
+python .\.agents\skills\claude-review-loop\scripts\run_review.py --help
+```
+
+```bash
+python3 .agents/skills/claude-review-loop/scripts/run_review.py --help
+```
+
+승인 후 Claude를 다시 호출하지 않고 fingerprint만 확인할 때는 다음 옵션을 사용합니다.
+
+```powershell
+python .\.agents\skills\claude-review-loop\scripts\run_review.py --print-fingerprint
+```
+
+```bash
+python3 .agents/skills/claude-review-loop/scripts/run_review.py --print-fingerprint
+```
+
+#### 기본 모델, effort, timeout
+
+프로젝트 기본값은 `.agents/skills/claude-review-loop/config.json`에 다음과 같이 정의되어 있습니다.
+
+```json
+{
+  "model": "opus",
+  "required_model_family": "opus-5",
+  "effort": "max",
+  "timeout_seconds": null,
+  "max_turns": null
+}
+```
+
+모델 override가 없을 때 `model: opus`는 Claude CLI에 Opus alias를 요청합니다. 이 기본 경로에서 결과 스트림으로 확인된 실제 모델은 `required_model_family: opus-5`와 정확히 일치해야 하며, runner는 지원되지 않는 모델로 조용히 대체하지 않습니다. 현재 설치된 CLI가 실제로 보고한 모델과 옵션을 먼저 확인해야 합니다.
+
+명령행에서 한 번만 모델·effort·timeout·turns를 바꿀 수 있습니다.
+
+```powershell
+python .\.agents\skills\claude-review-loop\scripts\run_review.py --model opus --effort max --timeout-seconds 900 --max-turns 12
+```
+
+```bash
+python3 .agents/skills/claude-review-loop/scripts/run_review.py --model opus --effort max --timeout-seconds 900 --max-turns 12
+```
+
+위 예시처럼 `--model`을 명시하면 설정의 `required_model_family` 검증 대신 명시한 요청 모델을 검증합니다. alias인 `opus`는 Opus family만 확인하고 특정 version은 고정하지 않으며, full model name은 family와 version을 정확히 비교합니다. 프로젝트 기본값의 `required_model_family` 검증을 유지하려면 `--model`과 `CLAUDE_REVIEW_MODEL`을 생략하고, 다른 모델을 선택할 때는 runner가 검증하는 `opus`·`sonnet`·`haiku` alias 또는 `claude-<family>-<version>[-YYYYMMDD]` 형식의 full name을 사용합니다. 그 밖의 alias는 CLI가 받아들이더라도 runner의 모델 검증에서 exit code `22`로 거부될 수 있습니다.
+
+기본 설정에서는 `timeout_seconds`와 `max_turns`가 `null`이므로 timeout이나 `--max-turns`를 자동으로 추가하지 않습니다. 사용자나 프로젝트가 명시한 경우에만 해당 제한이 적용됩니다.
+
+#### 환경변수와 설정 우선순위
+
+runner가 읽는 환경변수는 다음과 같습니다.
+
+| 환경변수 | 용도 |
+| --- | --- |
+| `CLAUDE_BIN` | `claude` 실행 파일 경로 또는 PATH 이름 |
+| `CLAUDE_REVIEW_MODEL` | 요청할 Claude 모델 alias/full name |
+| `CLAUDE_REVIEW_EFFORT` | 요청할 effort |
+| `CLAUDE_REVIEW_TIMEOUT_SECONDS` | Claude 프로세스 시작 후 출력 소비 구간의 timeout(초) |
+| `CLAUDE_REVIEW_MAX_TURNS` | Claude 비대화식 최대 turn 수 |
+
+PowerShell:
+
+```powershell
+$env:CLAUDE_REVIEW_MODEL = "opus"
+$env:CLAUDE_REVIEW_EFFORT = "max"
+python .\.agents\skills\claude-review-loop\scripts\run_review.py
+```
+
+POSIX shell:
+
+```bash
+export CLAUDE_REVIEW_MODEL=opus
+export CLAUDE_REVIEW_EFFORT=max
+python3 .agents/skills/claude-review-loop/scripts/run_review.py
+```
+
+`--timeout-seconds`와 `CLAUDE_REVIEW_TIMEOUT_SECONDS`는 Claude 프로세스를 시작한 뒤 stream 출력을 소비하는 구간에 적용됩니다. `claude --version`과 `claude --help` 사전 probe에는 이 timeout이 적용되지 않습니다.
+
+우선순위는 설정 항목마다 다음과 같습니다.
+
+```text
+명령행 옵션 > 환경변수 > config.json > runner 기본값
+```
+
+`required_model_family`는 `config.json`에서만 읽으며, 모델 override가 없을 때 실제 결과 모델의 family와 version을 검증하는 기준입니다. `--model`이나 `CLAUDE_REVIEW_MODEL`을 지정하면 그 요청값이 검증 대상이 됩니다. `CLAUDE_BIN` 또는 `--claude-bin`을 지정하면 해당 값만 사용하며 해석할 수 없을 때 exit code `20`으로 실패합니다. 둘 다 지정하지 않은 경우에만 PATH의 `claude`, Windows의 `%USERPROFILE%\.local\bin\claude.exe` 순으로 찾습니다.
+
+위 표는 리뷰 설정을 바꾸는 환경변수입니다. 네트워크 오류 진단에는 `HTTPS_PROXY`/`HTTP_PROXY`/`ALL_PROXY` 계열 변수도 읽고, Windows의 기본 Claude 경로 탐색에는 `USERPROFILE`을 사용하지만 이들은 모델·effort·timeout·turns 우선순위를 바꾸지 않습니다.
+
+#### 권한, 인증, 사용량 및 오류 처리
+
+Claude 호출은 `--permission-mode plan`과 `Read,Grep,Glob` allow-list를 사용합니다. `Edit`, `Write`, `Bash`, Notebook/Web/MCP 계열 도구도 거부 목록에 넣습니다. 이 스킬은 Stop hook, 종료 gate, `.codex/hooks.json`, `.codex/hooks/`를 생성하거나 사용하지 않습니다.
+
+Claude Code의 설치·로그인·구독 인증은 runner가 대신 설정하지 않습니다. Claude CLI가 없거나 인증이 끝나지 않았거나 구독 사용량 한도에 도달했거나 요청 모델/effort를 지원하지 않으면 승인으로 처리하지 않고 상태 파일에 실패 원인을 기록합니다.
+
+대표적인 exit code는 다음과 같습니다.
+
+| code | 의미 |
+| ---: | --- |
+| `0` | Claude가 `approved` 반환 |
+| `2` | Claude가 유효한 blocker/high/medium 변경 요청 반환 |
+| `20` | Claude Code CLI 미설치 |
+| `21` | Claude CLI version/help probe 또는 리뷰 프로세스 실행 실패 |
+| `22` | 인증, 모델, effort, 필수 CLI 옵션, review 상태 경로 또는 `request.json`/`config.json`을 포함한 설정 오류 |
+| `23` | 실행, 네트워크, proxy, 사용량 한도, timeout, Git 또는 fingerprint 오류 |
+| `30` | 최종 응답 JSON 또는 이전 응답 상태가 유효하지 않음 |
+| `31` | 같은 fingerprint와 같은 finding을 의미 없이 반복함 |
+
+리뷰 실행의 `0`만으로 승인 여부를 판단하지 말고 `.review/state.json`과 `.review/response.json`의 최신 내용을 함께 확인합니다. `response.json`의 `reviewed_fingerprint`와 새로 계산한 fingerprint가 다르면 승인으로 사용할 수 없습니다.
+
+Claude Code 2.1.220처럼 CLI가 stream에 실제 effort를 되돌려주지 않는 경우 `response.json.effort_verification`은 `cli_option_accepted`가 됩니다. 이는 runner가 정확한 `--effort` 옵션을 CLI에 전달하고 CLI가 수락했지만, 실제 런타임 effort 자체는 stream에서 독립적으로 확인할 수 없다는 뜻입니다. CLI가 다른 effort를 보고하면 runner는 실패합니다.
+
+`.review/`에는 일시적인 request, state, response, log가 저장되며 Git 커밋 대상이 아닙니다. fingerprint는 `.review/`를 제외하고 HEAD, index-only 변경, staged/unstaged worktree 상태와 변경 파일 내용을 반영합니다. `.gitignore`에 포함되지 않은 untracked 파일도 fingerprint에 포함되고, ignored 파일은 제외됩니다. 직접 비교하려면 `--print-fingerprint` 출력을 `response.json.reviewed_fingerprint`와 대조합니다.
+
+Claude Code CLI의 공식 flag 설명은 [Claude Code CLI reference](https://code.claude.com/docs/en/cli-reference)에서 확인할 수 있으며, runner는 실행 환경의 `claude --help`에 필요한 옵션이 없으면 fail closed 합니다.
+
 ## 검증 방법
 
 스킬이나 스크립트를 수정하는 사람은 가능한 범위에서 검증 명령을 실행합니다. 일반 사용자는 이 단계를 직접 수행하지 않아도 됩니다. Codex에게 “결과 파일을 검증해줘”라고 요청하면 됩니다.
