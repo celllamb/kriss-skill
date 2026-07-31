@@ -282,6 +282,13 @@ Use $claude-review-loop. 현재 저장소 변경을 구현하고 테스트한 �
 
 이 호출은 Codex가 구현, 테스트, `.review/request.json` 갱신, Claude finding 수정, 재검토를 조정하는 전체 워크플로입니다. 한 번의 Claude 호출이 끝났다고 자동으로 승인하는 것이 아니며, `approved`와 동일한 변경 fingerprint가 확인될 때만 다음 단계로 진행합니다.
 
+Claude가 `approved`를 반환해도 Codex는 다음 완료 게이트를 통과한 뒤에만 변경을 커밋하고 현재 브랜치를 푸시합니다.
+
+1. 최종 필수 테스트를 실행하고, `response.json.reviewed_fingerprint`와 새로 계산한 fingerprint가 일치하며 승인 뒤 코드가 바뀌지 않았는지 확인합니다. 필요하면 `--print-fingerprint`로 비교합니다. 둘이 다르면 커밋하지 말고 fingerprint를 다시 계산한 뒤 Claude 리뷰를 다시 실행합니다. 최종 테스트나 formatter가 파일을 바꾼 경우에도 같은 절차를 따릅니다.
+2. 별도의 읽기 전용 Codex 리뷰 서브에이전트를 요청 모델 `gpt-5.6-sol`, reasoning effort `max`로 실행합니다. 현재 런타임이 정확한 조합을 지원하지 않으면 다른 모델이나 effort로 조용히 대체하지 않고 실제 확인 상태를 보고하며, 타당한 미해결 finding이 없어야 합니다.
+3. staging 대상과 `git diff --cached`를 확인한 뒤 필요한 파일만 staging합니다. `.review/`, 로그·비밀정보·임시 파일 및 기존 사용자 변경은 포함하지 않습니다.
+4. 실제 작업을 요약한 커밋을 만들고 현재 브랜치를 푸시합니다. upstream이 있으면 `git push`, 없으면 `git push -u origin <current-branch>`를 사용하며 force push, amend, rebase는 하지 않습니다.
+
 `run_review.py`를 직접 실행하면 Claude Code 읽기 전용 리뷰 한 회차만 실행합니다. 직접 실행은 구현이나 finding 수정, 반복 조정을 대신하지 않습니다.
 
 아래의 Claude 리뷰 실행 명령을 직접 사용하려면 먼저 `.review/request.json`이 있어야 합니다. 이 파일의 스키마와 현재 변경 내용은 `.agents/skills/claude-review-loop/SKILL.md`를 따르며, 일반적으로는 `$claude-review-loop` 전체 워크플로를 수행하는 Codex가 작성·갱신합니다. `--help`와 `--print-fingerprint`는 Claude 리뷰를 호출하지 않으므로 이 전제조건이 필요하지 않습니다.
@@ -300,7 +307,7 @@ python3 .agents/skills/claude-review-loop/scripts/run_review.py
 
 현재 명령행 옵션은 설치된 runner에서 `--help`로 확인합니다.
 
-경로를 바꿔야 할 때는 `--repo-root`(저장소), `--config`(config.json), `--review-dir`(review 상태 디렉터리), `--request`(request.json)를 사용할 수 있습니다.
+경로를 바꿔야 할 때는 `--repo-root`(저장소), `--config`(config.json), `--review-dir`(review 상태 디렉터리), `--request`(request.json)를 사용할 수 있습니다. `--review-dir`와 `--request`는 저장소 안에 있어야 하며 symlink를 포함할 수 없습니다. 기본 `.review/` 외의 경로를 사용할 때는 해당 경로를 Git ignore 대상으로 유지하세요. fingerprint에서 하드코딩으로 제외되는 경로는 `.review/`뿐이므로, ignore되지 않은 custom review 디렉터리의 state/response/log 기록이나 custom request 파일은 변경 상태에 포함될 수 있고 승인 직전 fingerprint가 달라질 수 있습니다.
 
 ```powershell
 python .\.agents\skills\claude-review-loop\scripts\run_review.py --help
@@ -435,7 +442,7 @@ Run the project-scoped review skill's unit tests from the repository root:
 python -m unittest discover -s tests -v
 ```
 
-The optional integration test is enabled only with `RUN_CLAUDE_REVIEW_INTEGRATION=1`. Each `$claude-review-loop` invocation performs one read-only Claude Code round and records temporary state in `.review/`; Codex applies valid findings and starts the next round. The runner returns `0` for approval, `2` for requested changes, and distinct non-approval codes for unavailable CLI, configuration, execution, invalid response, and no-progress states.
+The optional integration test is enabled only with `RUN_CLAUDE_REVIEW_INTEGRATION=1`. Each `run_review.py` execution that actually starts a review (not `--help` or `--print-fingerprint`) performs one read-only Claude Code round and records temporary state in `.review/`; the `$claude-review-loop` workflow applies valid findings and starts subsequent rounds until approval or a stated stop condition. The runner returns `0` for approval, `2` for requested changes, and distinct non-approval codes for unavailable CLI, configuration, execution, invalid response, and no-progress states.
 
 `edit-hwpx-docs`의 기본 도구는 Python 표준 라이브러리만 사용합니다. `hwpx_tool.py validate`와 `validate_hwpx_images.py`는 XML 파싱뿐 아니라 HWP2018에서 문제가 될 수 있는 `charCnt`, `hp:lineseg textpos` 불일치도 확인합니다.
 
