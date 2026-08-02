@@ -31,7 +31,7 @@ Skill은 Codex가 특정 작업을 더 안정적으로 수행하도록 돕는 �
 | `edit-hwpx-docs` | 범용 | 한컴 HWPX 문서에서 텍스트를 뽑거나, 간단한 문구를 바꾸거나, HWP2018에서 민감한 문단 레이아웃 참조까지 포함해 문서 패키지 구조를 검증해야 할 때 |
 | `kriss-trip-report` | KRISS 전용 | KRISS 국외출장보고서를 회의 자료, 발표자료, 일정표, 탑승권, 출입국 증빙, 사진, 전사본 등을 바탕으로 작성하거나, 작성된 보고서를 원자료와 대조 감사하고 HWPX 최종본을 검증해야 할 때 |
 | `official-docs-setup` | 범용 | 설치/실행 명령뿐 아니라 보고서, 계획서, 제안서, 발표자료에서 제품·서비스·표준·정책·프로그램 정보를 공식 문서 기준으로 확인하게 하고 싶을 때 |
-| `claude-review-loop` | 프로젝트 전용 | Codex가 구현·테스트를 담당하고 Claude Code의 읽기 전용 리뷰를 한 회차씩 반복하며 승인 fingerprint를 확인해야 할 때 |
+| `claude-review-loop` | 프로젝트·전역 설치 가능 | Codex가 구현·테스트를 담당하고 Claude Code의 읽기 전용 리뷰를 한 회차씩 반복하며 승인 fingerprint를 확인해야 할 때 |
 
 ## 설치 방법
 
@@ -50,7 +50,7 @@ GitHub Desktop은 명령어를 몰라도 저장소를 내려받고 업데이트�
 3. 웹브라우저에서 이 저장소 페이지를 엽니다.
 4. 초록색 `Code` 버튼을 누른 뒤 `Open with GitHub Desktop`을 선택합니다.
 5. 저장 위치를 고르고 `Clone`을 누릅니다.
-6. 내려받은 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup` 폴더가 있는지 확인합니다.
+6. 내려받은 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop` 폴더가 있는지 확인합니다.
 
 나중에 저장소가 업데이트되면 GitHub Desktop에서 이 저장소를 열고 최신 변경사항을 가져오면 됩니다. 자세한 절차는 GitHub 공식 문서의 [GitHub Desktop으로 저장소 복제하기](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop?platform=windows)를 참고하세요.
 
@@ -62,12 +62,12 @@ GitHub 웹사이트에서 ZIP으로 받는 방법:
 2. 초록색 `Code` 버튼을 누릅니다.
 3. `Download ZIP`을 선택합니다. (이 상태에서 받은 압축파일을 바로 codex에게 스킬 설치를 요청해도 됩니다.)
 4. 내려받은 ZIP 파일을 마우스 오른쪽 버튼으로 클릭한 뒤 `압축 풀기`를 선택합니다.
-5. 압축을 푼 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup` 폴더가 있는지 확인합니다.
+5. 압축을 푼 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop` 폴더가 있는지 확인합니다.
 
 이미 누군가에게 폴더를 전달받은 경우:
 
 1. 전달받은 폴더를 엽니다.
-2. 그 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup` 같은 스킬 폴더가 있는지 확인합니다.
+2. 그 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop` 같은 스킬 폴더가 있는지 확인합니다.
 3. ZIP 파일로 전달받았다면 먼저 압축을 풉니다.
 
 #### 2. Codex skills 폴더 열기
@@ -87,7 +87,7 @@ GitHub 웹사이트에서 ZIP으로 받는 방법:
 
 일부 스킬만 설치하려면 필요한 폴더만 복사하면 됩니다.
 
-예를 들어 HWPX 문서 편집만 필요하면 `edit-hwpx-docs` 폴더만 복사하면 됩니다. KRISS 국외출장보고서 작성이 필요하면 `kriss-trip-report` 폴더를 복사합니다.
+예를 들어 HWPX 문서 편집만 필요하면 `edit-hwpx-docs` 폴더만 복사하면 됩니다. KRISS 국외출장보고서 작성이 필요하면 `kriss-trip-report` 폴더를 복사합니다. Claude 리뷰 루프가 필요하면 `claude-review-loop` 폴더를 복사합니다.
 
 설치가 어렵다면 Codex에게 다음처럼 요청해도 됩니다.
 
@@ -107,7 +107,7 @@ cd kriss-skill
 ```powershell
 $skills = "$env:USERPROFILE\.codex\skills"
 New-Item -ItemType Directory -Force -Path $skills
-Copy-Item -Recurse -Force .\edit-hwpx-docs, .\kriss-trip-report, .\official-docs-setup $skills
+Copy-Item -Recurse -Force .\edit-hwpx-docs, .\kriss-trip-report, .\official-docs-setup, .\claude-review-loop $skills
 ```
 
 ```powershell
@@ -138,7 +138,7 @@ Use $official-docs-setup. 이 프로젝트 실행 방법을 공식 문서 기준
 Use $claude-review-loop. 이 저장소 변경을 구현하고 테스트한 뒤 Claude Code 읽기 전용 리뷰가 승인할 때까지 반복해줘.
 ```
 
-`claude-review-loop`는 저장소의 `.agents/skills/claude-review-loop/`에 두는 프로젝트 전용 스킬입니다. 사용 시 Codex가 `.review/`에 임시 리뷰 상태를 기록하며, 이 디렉터리는 커밋하지 않습니다.
+`claude-review-loop`의 GitHub 배포본은 저장소 루트의 `claude-review-loop/`에 다른 스킬과 같은 구조로 포함되어 있습니다. 현재 저장소에서 Codex가 프로젝트 전용 스킬로 자동 발견하도록 동일한 파일을 `.agents/skills/claude-review-loop/`에도 유지합니다. 두 경로의 파일은 동일하게 유지합니다. 다른 저장소에서 프로젝트 전용 스킬로 사용하려면 루트 `claude-review-loop/`를 `<target-repository>/.agents/skills/claude-review-loop/`로 복사해야 합니다. Codex 전역 스킬로만 설치하려면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 복사할 수 있습니다. 대상 저장소에 `.agents` 복사본이 없는 상태에서 전역 설치본의 runner를 직접 실행하려면 대상 저장소 루트에서 `python "$env:USERPROFILE\.codex\skills\claude-review-loop\scripts\run_review.py" --repo-root .`를 사용하고, POSIX에서는 `python3 "$HOME/.codex/skills/claude-review-loop/scripts/run_review.py" --repo-root .`를 사용합니다. 사용 시 Codex가 `.review/`에 임시 리뷰 상태를 기록하며, 이 디렉터리는 커밋하지 않습니다.
 
 ## 스킬별 안내
 
@@ -270,7 +270,7 @@ Codex 외 다른 도구에 같은 원칙을 옮겨야 한다면 `official-docs-s
 
 ### claude-review-loop
 
-`claude-review-loop`는 이 저장소의 변경을 Codex가 구현하고 테스트한 뒤, Claude Code가 한 회차씩 읽기 전용으로 검토하도록 하는 프로젝트 전용 스킬입니다. 사용자가 `$claude-review-loop`을 명시적으로 호출했을 때만 사용합니다.
+`claude-review-loop`는 저장소의 변경을 Codex가 구현하고 테스트한 뒤, Claude Code가 한 회차씩 읽기 전용으로 검토하도록 하는 스킬입니다. 프로젝트 저장소에서는 `.agents/skills/claude-review-loop/` 복사본을 사용하고, 필요하면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 전역 설치할 수 있습니다. 사용자가 `$claude-review-loop`을 명시적으로 호출했을 때만 사용합니다.
 
 #### 전체 워크플로와 직접 실행의 차이
 
@@ -290,6 +290,12 @@ Claude가 `approved`를 반환해도 Codex는 다음 완료 게이트를 통과�
 4. 실제 작업을 요약한 커밋을 만들고 현재 브랜치를 푸시합니다. upstream이 있으면 `git push`, 없으면 `git push -u origin <current-branch>`를 사용하며 force push, amend, rebase는 하지 않습니다.
 
 `run_review.py`를 직접 실행하면 Claude Code 읽기 전용 리뷰 한 회차만 실행합니다. 직접 실행은 구현이나 finding 수정, 반복 조정을 대신하지 않습니다.
+
+#### 리뷰 입력 압축과 프롬프트 캐시
+
+반복 리뷰의 입력 토큰을 줄이기 위해 runner는 전체 `request.json`, 구현 이력, 테스트 이력 및 이전 finding의 긴 증거를 매번 다시 보내지 않고, 목표·수락 조건·검토 초점·알려진 위험과 이전 finding의 안정적인 식별자만 compact context로 전달합니다. 변경 파일과 현재 diff를 주된 검토 범위로 유지하고, 작은 untracked 텍스트는 비밀정보를 먼저 가린 뒤에만 포함하며, 중복·대형·바이너리·symlink 파일은 메타데이터만 사용하거나 안전하게 검토할 수 없으면 fail closed 합니다.
+
+Claude Code가 `--exclude-dynamic-system-prompt-sections`를 지원하면 runner가 해당 옵션을 전달합니다. 이 옵션은 머신별 동적 system prompt 부분을 user message 쪽으로 옮겨 리뷰 사이에 안정적인 prompt prefix가 더 잘 재사용되도록 돕지만, provider의 캐시 TTL 자체를 연장하지는 않습니다. Anthropic API에는 기본 5분 및 선택 가능한 1시간 `cache_control` TTL이 문서화되어 있지만, 구독으로 인증된 Claude Code 2.1.220 CLI의 실제 `--help`에는 TTL 옵션이 없습니다. 따라서 이 skill은 지원되지 않는 flag, keepalive 호출 또는 별도 API 인증정보를 추가하지 않으며, 리뷰 간격이 5분을 넘었을 때 캐시가 유지된다고 보장하지 않습니다. 자세한 내용은 [Anthropic prompt caching 문서](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)와 [Claude Code CLI 문서](https://docs.anthropic.com/en/docs/claude-code/cli-usage)를 참조하십시오.
 
 아래의 Claude 리뷰 실행 명령을 직접 사용하려면 먼저 `.review/request.json`이 있어야 합니다. 이 파일의 스키마와 현재 변경 내용은 `.agents/skills/claude-review-loop/SKILL.md`를 따르며, 일반적으로는 `$claude-review-loop` 전체 워크플로를 수행하는 Codex가 작성·갱신합니다. `--help`와 `--print-fingerprint`는 Claude 리뷰를 호출하지 않으므로 이 전제조건이 필요하지 않습니다.
 
