@@ -42,8 +42,8 @@ EXIT_INVALID_RESPONSE = 30
 EXIT_NO_PROGRESS = 31
 
 DEFAULT_CONFIG: Dict[str, Any] = {
-    "model": "opus",
-    "required_model_family": "opus-5",
+    "model": "claude-opus-5-5",
+    "required_model_family": "opus-5-5",
     "effort": "max",
     "timeout_seconds": None,
     "max_turns": None,

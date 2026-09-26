@@ -327,7 +327,7 @@ class ReviewLoopUnitTests(unittest.TestCase):
     def test_tool_output_cannot_reclassify_plain_process_failure(self):
         with tempfile.TemporaryDirectory() as directory:
             lines = [
-                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                 json.dumps(
                     {
                         "type": "tool_result",
@@ -344,7 +344,7 @@ class ReviewLoopUnitTests(unittest.TestCase):
     def test_authentication_error_is_classified_and_not_approved(self):
         with tempfile.TemporaryDirectory() as directory:
             lines = [
-                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                 json.dumps(
                     {
                         "type": "result",
@@ -372,7 +372,7 @@ class ReviewLoopUnitTests(unittest.TestCase):
                 "recommendation": "예외 처리를 추가함",
             }
             lines = [
-                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                 json.dumps(
                     {"type": "result", "result": json.dumps(valid_payload("changes_requested", [finding]))}
                 )
@@ -524,14 +524,14 @@ class ReviewLoopUnitTests(unittest.TestCase):
     def test_approved_stream_result_records_fingerprint_and_metadata(self):
         with tempfile.TemporaryDirectory() as directory:
             lines = [
-                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                 json.dumps({"type": "result", "result": json.dumps(valid_payload())}) + "\n",
             ]
             code, state, response = self.run_fake_review(Path(directory), lines)
             self.assertEqual(code, review.EXIT_APPROVED)
             self.assertEqual(state["status"], review.STATUS_APPROVED)
             self.assertEqual(response["decision"], "approved")
-            self.assertEqual(response["effective_model"], "claude-opus-5")
+            self.assertEqual(response["effective_model"], "claude-opus-5-5")
             self.assertTrue(response["reviewed_fingerprint"].startswith("sha256:"))
 
     def test_successful_review_text_mentioning_api_error_is_not_reclassified(self):
@@ -539,7 +539,7 @@ class ReviewLoopUnitTests(unittest.TestCase):
             payload = valid_payload()
             payload["summary"] = "The phrase API error is only review evidence, not a process failure."
             lines = [
-                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                 json.dumps({"type": "result", "result": json.dumps(payload)}) + "\n",
             ]
             code, state, response = self.run_fake_review(Path(directory), lines)
@@ -553,7 +553,7 @@ class ReviewLoopUnitTests(unittest.TestCase):
             _, config_path = self.make_request_and_config(root)
             process = FakeProcess(
                 [
-                    json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                    json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                     json.dumps({"type": "result", "result": json.dumps(valid_payload())}) + "\n",
                 ]
             )
@@ -579,7 +579,7 @@ class ReviewLoopUnitTests(unittest.TestCase):
             payload["summary"] = "Authorization: Bearer abcdefghijklmnop"
             payload["unexpected_secret"] = "ghp_123456789012345678901234567890"
             lines = [
-                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5"}) + "\n",
+                json.dumps({"type": "system", "subtype": "init", "model": "claude-opus-5-5"}) + "\n",
                 json.dumps({"type": "result", "result": json.dumps(payload)}) + "\n",
             ]
             code, state, response = self.run_fake_review(Path(directory), lines)
