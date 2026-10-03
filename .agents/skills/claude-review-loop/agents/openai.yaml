@@ -1,4 +1,0 @@
-interface:
-  display_name: "Claude Review Loop"
-  short_description: "Claude Code reviews and optional fix loops"
-  default_prompt: "Use $claude-review-loop for the full test-and-fix review loop, or ask for a read-only Claude Code review."

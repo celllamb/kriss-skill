@@ -138,7 +138,7 @@ Use $official-docs-setup. 이 프로젝트 실행 방법을 공식 문서 기준
 Use $claude-review-loop. 이 저장소 변경을 구현하고 테스트한 뒤 Claude Code 읽기 전용 리뷰가 승인할 때까지 반복해줘.
 ```
 
-`claude-review-loop`의 GitHub 배포본은 저장소 루트의 `claude-review-loop/`에 다른 스킬과 같은 구조로 포함되어 있습니다. 현재 저장소에서 Codex가 프로젝트 전용 스킬로 자동 발견하도록 동일한 파일을 `.agents/skills/claude-review-loop/`에도 유지합니다. 두 경로의 파일은 동일하게 유지합니다. 다른 저장소에서 프로젝트 전용 스킬로 사용하려면 루트 `claude-review-loop/`를 `<target-repository>/.agents/skills/claude-review-loop/`로 복사해야 합니다. Codex 전역 스킬로만 설치하려면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 복사할 수 있습니다. 대상 저장소에 `.agents` 복사본이 없는 상태에서 전역 설치본의 runner를 직접 실행하려면 대상 저장소 루트에서 `python "$env:USERPROFILE\.codex\skills\claude-review-loop\scripts\run_review.py" --repo-root .`를 사용하고, POSIX에서는 `python3 "$HOME/.codex/skills/claude-review-loop/scripts/run_review.py" --repo-root .`를 사용합니다. 사용 시 Codex가 `.review/`에 임시 리뷰 상태를 기록하며, 이 디렉터리는 커밋하지 않습니다.
+`claude-review-loop`의 GitHub 배포 원본은 저장소 루트의 `claude-review-loop/`에 다른 스킬과 같은 구조로 포함되어 있습니다. 이 저장소에는 `.agent/` 또는 `.agents/` 복사본을 두지 않으며 해당 경로는 Git ignore 대상으로 유지합니다. 다른 저장소에서 프로젝트 전용 스킬 디렉터리를 사용하려면 그 대상 저장소의 정책에 따라 루트 `claude-review-loop/`를 설치하고, 전역 설치가 필요하면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 복사할 수 있습니다. 전역 설치본의 runner를 직접 실행하려면 대상 저장소 루트에서 `python "$env:USERPROFILE\.codex\skills\claude-review-loop\scripts\run_review.py" --repo-root .`를 사용하고, POSIX에서는 `python3 "$HOME/.codex/skills/claude-review-loop/scripts/run_review.py" --repo-root .`를 사용합니다. 사용 시 Codex가 `.review/`에 임시 리뷰 상태를 기록하며, 이 디렉터리는 커밋하지 않습니다.
 
 ## 스킬별 안내
 
@@ -270,7 +270,7 @@ Codex 외 다른 도구에 같은 원칙을 옮겨야 한다면 `official-docs-s
 
 ### claude-review-loop
 
-`claude-review-loop`는 사용자가 Claude Code 리뷰를 분명히 요청할 때 사용할 수 있습니다. `$claude-review-loop`을 명시적으로 호출하거나 수정·테스트·재리뷰를 요청하면 전체 반복 절차를 수행합니다. 단순히 Claude, 인증, 모델, 비용 또는 스킬 사용법을 묻는 경우에는 리뷰를 실행하지 않습니다. 프로젝트 저장소에서는 `.agents/skills/claude-review-loop/` 복사본을 사용하고, 필요하면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 전역 설치할 수 있습니다.
+`claude-review-loop`는 사용자가 Claude Code 리뷰를 분명히 요청할 때 사용할 수 있습니다. `$claude-review-loop`을 명시적으로 호출하거나 수정·테스트·재리뷰를 요청하면 전체 반복 절차를 수행합니다. 단순히 Claude, 인증, 모델, 비용 또는 스킬 사용법을 묻는 경우에는 리뷰를 실행하지 않습니다. 이 저장소에서는 루트 `claude-review-loop/`를 배포 원본으로 사용하며 `.agent/`와 `.agents/`는 버전 관리하지 않습니다. 필요하면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 전역 설치할 수 있습니다.
 
 #### 전체 워크플로와 직접 실행의 차이
 
@@ -299,7 +299,7 @@ Claude가 `approved`를 반환해도 Codex는 다음 완료 게이트를 통과�
 
 Claude Code가 `--exclude-dynamic-system-prompt-sections`를 지원하면 runner가 해당 옵션을 전달합니다. 이 옵션은 머신별 동적 system prompt 부분을 user message 쪽으로 옮겨 리뷰 사이에 안정적인 prompt prefix가 더 잘 재사용되도록 돕지만, provider의 캐시 TTL 자체를 연장하지는 않습니다. Anthropic API에는 기본 5분 및 선택 가능한 1시간 `cache_control` TTL이 문서화되어 있지만, 구독으로 인증된 Claude Code 2.1.220 CLI의 실제 `--help`에는 TTL 옵션이 없습니다. 따라서 이 skill은 지원되지 않는 flag, keepalive 호출 또는 별도 API 인증정보를 추가하지 않으며, 리뷰 간격이 5분을 넘었을 때 캐시가 유지된다고 보장하지 않습니다. 자세한 내용은 [Anthropic prompt caching 문서](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)와 [Claude Code CLI 문서](https://docs.anthropic.com/en/docs/claude-code/cli-usage)를 참조하십시오.
 
-아래의 Claude 리뷰 실행 명령을 직접 사용하려면 먼저 `.review/request.json`이 있어야 합니다. 이 파일의 스키마와 현재 변경 내용은 `.agents/skills/claude-review-loop/SKILL.md`를 따르며, 일반적으로는 `$claude-review-loop` 전체 워크플로를 수행하는 Codex가 작성·갱신합니다. `--help`와 `--print-fingerprint`는 Claude 리뷰를 호출하지 않으므로 이 전제조건이 필요하지 않습니다.
+아래의 Claude 리뷰 실행 명령을 직접 사용하려면 먼저 `.review/request.json`이 있어야 합니다. 이 파일의 스키마와 현재 변경 내용은 `claude-review-loop/SKILL.md`를 따르며, 일반적으로는 `$claude-review-loop` 전체 워크플로를 수행하는 Codex가 작성·갱신합니다. `--help`와 `--print-fingerprint`는 Claude 리뷰를 호출하지 않으므로 이 전제조건이 필요하지 않습니다.
 
 Windows PowerShell:
 
@@ -310,7 +310,7 @@ python .\.agents\skills\claude-review-loop\scripts\run_review.py
 POSIX shell:
 
 ```bash
-python3 .agents/skills/claude-review-loop/scripts/run_review.py
+python3 claude-review-loop/scripts/run_review.py
 ```
 
 현재 명령행 옵션은 설치된 runner에서 `--help`로 확인합니다.
@@ -322,7 +322,7 @@ python .\.agents\skills\claude-review-loop\scripts\run_review.py --help
 ```
 
 ```bash
-python3 .agents/skills/claude-review-loop/scripts/run_review.py --help
+python3 claude-review-loop/scripts/run_review.py --help
 ```
 
 승인 후 Claude를 다시 호출하지 않고 fingerprint만 확인할 때는 다음 옵션을 사용합니다.
@@ -332,12 +332,12 @@ python .\.agents\skills\claude-review-loop\scripts\run_review.py --print-fingerp
 ```
 
 ```bash
-python3 .agents/skills/claude-review-loop/scripts/run_review.py --print-fingerprint
+python3 claude-review-loop/scripts/run_review.py --print-fingerprint
 ```
 
 #### 기본 모델, effort, timeout
 
-프로젝트 기본값은 `.agents/skills/claude-review-loop/config.json`에 다음과 같이 정의되어 있습니다.
+프로젝트 기본값은 `claude-review-loop/config.json`에 다음과 같이 정의되어 있습니다.
 
 ```json
 {
@@ -358,7 +358,7 @@ python .\.agents\skills\claude-review-loop\scripts\run_review.py --model opus --
 ```
 
 ```bash
-python3 .agents/skills/claude-review-loop/scripts/run_review.py --model opus --effort max --timeout-seconds 900 --max-turns 12
+python3 claude-review-loop/scripts/run_review.py --model opus --effort max --timeout-seconds 900 --max-turns 12
 ```
 
 위 예시처럼 `--model`을 명시하면 설정의 `required_model_family` 검증 대신 명시한 요청 모델을 검증합니다. alias인 `opus`는 Opus family만 확인하고 특정 version은 고정하지 않으며, full model name은 family와 version을 정확히 비교합니다. 프로젝트 기본값의 `required_model_family` 검증을 유지하려면 `--model`과 `CLAUDE_REVIEW_MODEL`을 생략하고, 다른 모델을 선택할 때는 runner가 검증하는 `opus`·`sonnet`·`haiku` alias 또는 `claude-<family>-<version>[-YYYYMMDD]` 형식의 full name을 사용합니다. 그 밖의 alias는 CLI가 받아들이더라도 runner의 모델 검증에서 exit code `22`로 거부될 수 있습니다.
@@ -390,7 +390,7 @@ POSIX shell:
 ```bash
 export CLAUDE_REVIEW_MODEL=opus
 export CLAUDE_REVIEW_EFFORT=max
-python3 .agents/skills/claude-review-loop/scripts/run_review.py
+python3 claude-review-loop/scripts/run_review.py
 ```
 
 `--timeout-seconds`와 `CLAUDE_REVIEW_TIMEOUT_SECONDS`는 Claude 프로세스를 시작한 뒤 stream 출력을 소비하는 구간에 적용됩니다. `claude --version`과 `claude --help` 사전 probe에는 이 timeout이 적용되지 않습니다.

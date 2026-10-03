@@ -7,3 +7,7 @@ __pycache__/
 
 # Generated PPTX healthcheck demo and roundtrip artifacts.
 pptx-compatibility/demo/
+
+# Local agent metadata and project-local agent skill mirrors must never be committed.
+.agent/
+.agents/
