@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.agent/
+.agents/
+*.final.html
+*.evidence/
+*.pptx
+*.pdf
+.venv/
+node_modules/
+.DS_Store

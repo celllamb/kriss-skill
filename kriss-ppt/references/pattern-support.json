@@ -1,0 +1,1307 @@
+{
+  "version": "1.1.0-rc3",
+  "status": "RELEASE_CANDIDATE_NOT_ALL_PATTERN_CERTIFIED",
+  "date": "2026-10-05",
+  "source_basis": "Uploaded rc2 installation plus validated cumulative post-rc2 fixes; rc3 package-identity and installation-only changes",
+  "historical_record": false,
+  "original_font_certification": false,
+  "renderer": "Chromium 144.0.7559.96 / LibreOffice 25.2.3.2 / Poppler 25.06.0; not Microsoft PowerPoint app",
+  "scope_note": "Actual rc3 diagnostic-font rerun. Per-slide results are not unconditional pattern certification. Executable tests and raw evidence are external to the installation.",
+  "known_unsupported": [
+    "S11/S12 vertical-rl native text",
+    "S12 independent mixed text / source coverage"
+  ],
+  "decks": [
+    {
+      "reference": "reference.html",
+      "reference_sha256": "88f417087615bc737781f00dd6839ade5a406eab2cd2d913ebe111d4bb79fb61",
+      "status": "BLOCKED",
+      "diagnostic_font_substitutions": {
+        "Noto Sans KR": "Noto Sans CJK KR",
+        "JetBrains Mono": "DejaVu Sans Mono"
+      },
+      "font_errors": [],
+      "gates": {
+        "static": true,
+        "html": false,
+        "native": true,
+        "parity": false
+      },
+      "slides": 25,
+      "per_slide": {
+        "html": 23,
+        "native": 25,
+        "parity": 0
+      },
+      "original_artwork_pass": false,
+      "patterns": [
+        {
+          "slide": 1,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.4780772569444443,
+            "major": 0.023116319444444443,
+            "strong": 0.016243489583333333,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 2,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.4829253472222224,
+            "major": 0.012985026041666667,
+            "strong": 0.009326171875,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 3,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.838760127314815,
+            "major": 0.014651692708333334,
+            "strong": 0.012366536458333334,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 4,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.704888599537037,
+            "major": 0.018424479166666667,
+            "strong": 0.012858072916666666,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 5,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.933591579861111,
+            "major": 0.018018663194444444,
+            "strong": 0.013169487847222222,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 6,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.2460677083333334,
+            "major": 0.017409939236111113,
+            "strong": 0.010477430555555556,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 7,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.735562427662037,
+            "major": 0.01988498263888889,
+            "strong": 0.014430338541666667,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 8,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.6488107638888887,
+            "major": 0.025389539930555555,
+            "strong": 0.019446614583333334,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 7,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 9,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.785943648726852,
+            "major": 0.016925998263888888,
+            "strong": 0.012357855902777777,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 5,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 10,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.7070178674768517,
+            "major": 0.01686089409722222,
+            "strong": 0.012102864583333333,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 11,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s11.e0005",
+              "rect": {
+                "x": 152.328125,
+                "y": 196.53125,
+                "w": 998.46875,
+                "h": 36.671875
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.3815852864583333,
+            "major": 0.02448025173611111,
+            "strong": 0.0181640625,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 12,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.8043529369212963,
+            "major": 0.02929904513888889,
+            "strong": 0.021439887152777778,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 5,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 13,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.864867621527778,
+            "major": 0.021797960069444445,
+            "strong": 0.015377604166666666,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 6,
+          "failed_local_paint_regions": 4
+        },
+        {
+          "slide": 14,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.093050853587963,
+            "major": 0.013291015625,
+            "strong": 0.008742404513888889,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 15,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.788730830439815,
+            "major": 0.018389756944444443,
+            "strong": 0.012573784722222222,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 3
+        },
+        {
+          "slide": 16,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.406025028935185,
+            "major": 0.013738064236111111,
+            "strong": 0.009734157986111111,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 17,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.0170865885416664,
+            "major": 0.021410590277777777,
+            "strong": 0.015967881944444446,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 4,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 18,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.812177734375,
+            "major": 0.018807508680555557,
+            "strong": 0.014495442708333334,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 19,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.7714460358796296,
+            "major": 0.01797634548611111,
+            "strong": 0.012825520833333333,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 20,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.662943431712963,
+            "major": 0.017725694444444443,
+            "strong": 0.012962239583333333,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 21,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.870304181134259,
+            "major": 0.019248046875,
+            "strong": 0.014470486111111111,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 22,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.3571997974537036,
+            "major": 0.024391276041666667,
+            "strong": 0.017327473958333332,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 3,
+          "failed_local_visual_regions": 5,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 23,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.4745959924768517,
+            "major": 0.02498806423611111,
+            "strong": 0.017973090277777777,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 24,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.3483503327546296,
+            "major": 0.015367838541666666,
+            "strong": 0.010138888888888888,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 8,
+          "failed_local_visual_regions": 8,
+          "failed_local_paint_regions": 8
+        },
+        {
+          "slide": 25,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unsupported-flat-spread-shadow",
+              "id": "s25.e0020.after",
+              "detail": "rgb(228, 234, 232) 0px 0px 0px 1px inset"
+            },
+            {
+              "code": "unsupported-flat-spread-shadow",
+              "id": "s25.e0025.after",
+              "detail": "rgb(228, 234, 232) 0px 0px 0px 1px inset"
+            },
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s25.e0005",
+              "rect": {
+                "x": 65.265625,
+                "y": 99.359375,
+                "w": 278.625,
+                "h": 54.859375
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            },
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s25.e0008",
+              "rect": {
+                "x": 65.265625,
+                "y": 162.84375,
+                "w": 278.625,
+                "h": 54.859375
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            },
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s25.e0011",
+              "rect": {
+                "x": 65.265625,
+                "y": 226.328125,
+                "w": 278.625,
+                "h": 54.859375
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.3540831163194444,
+            "major": 0.026612413194444445,
+            "strong": 0.019123263888888888,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 2,
+          "failed_local_paint_regions": 5
+        }
+      ]
+    },
+    {
+      "reference": "approved-visual-variants.html",
+      "reference_sha256": "ad2ba9858f105829a8d125b9bfacbb21ad926b0d8271daad8cab8794412c8fa2",
+      "status": "BLOCKED",
+      "diagnostic_font_substitutions": {
+        "Noto Sans KR": "Noto Sans CJK KR",
+        "JetBrains Mono": "DejaVu Sans Mono"
+      },
+      "font_errors": [
+        "Georgia"
+      ],
+      "gates": {
+        "static": true,
+        "html": false,
+        "native": true,
+        "parity": false
+      },
+      "slides": 9,
+      "per_slide": {
+        "html": 6,
+        "native": 9,
+        "parity": 0
+      },
+      "original_artwork_pass": true,
+      "patterns": [
+        {
+          "slide": 1,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s01.e0005",
+              "rect": {
+                "x": 87.015625,
+                "y": 351.03125,
+                "w": 447.140625,
+                "h": 35.515625
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.879675564236111,
+            "major": 0.01817599826388889,
+            "strong": 0.013733723958333333,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 2,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s02.e0004",
+              "rect": {
+                "x": 90.859375,
+                "y": 324.34375,
+                "w": 260.203125,
+                "h": 82.03125
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.9731419994212964,
+            "major": 0.01953125,
+            "strong": 0.015158420138888889,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 3,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.801553096064815,
+            "major": 0.01848849826388889,
+            "strong": 0.013881293402777778,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 4,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.418177806712963,
+            "major": 0.02199001736111111,
+            "strong": 0.016812065972222224,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 5,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.3618869357638888,
+            "major": 0.017709418402777777,
+            "strong": 0.01115451388888889,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 12
+        },
+        {
+          "slide": 6,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s06.e0004",
+              "rect": {
+                "x": 90.859375,
+                "y": 322.640625,
+                "w": 383.390625,
+                "h": 59.875
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.5006278935185184,
+            "major": 0.015631510416666668,
+            "strong": 0.011094835069444444,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 4,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 7,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 4.4993695746527775,
+            "major": 0.03517795138888889,
+            "strong": 0.029258897569444445,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 8,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 3.1541710069444444,
+            "major": 0.024313151041666668,
+            "strong": 0.01555447048611111,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 3,
+          "failed_local_paint_regions": 4
+        },
+        {
+          "slide": 9,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.3649605758101853,
+            "major": 0.015577256944444444,
+            "strong": 0.010138888888888888,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 12
+        }
+      ]
+    },
+    {
+      "reference": "source-native-visual-variants.html",
+      "reference_sha256": "82db345fc036fc38b40192ff39f45cf63e2fa15977139b3c12dead6a27a97175",
+      "status": "BLOCKED",
+      "diagnostic_font_substitutions": {
+        "Noto Sans KR": "Noto Sans CJK KR",
+        "JetBrains Mono": "DejaVu Sans Mono"
+      },
+      "font_errors": [
+        "Arial"
+      ],
+      "gates": {
+        "static": true,
+        "html": false,
+        "native": false,
+        "parity": false
+      },
+      "slides": 13,
+      "per_slide": {
+        "html": 8,
+        "native": 11,
+        "parity": 0
+      },
+      "original_artwork_pass": true,
+      "patterns": [
+        {
+          "slide": 1,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.140259331597222,
+            "major": 0.015199652777777777,
+            "strong": 0.010321180555555556,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 21,
+          "failed_local_visual_regions": 7,
+          "failed_local_paint_regions": 5
+        },
+        {
+          "slide": 2,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.9809809027777776,
+            "major": 0.021129557291666667,
+            "strong": 0.014144965277777777,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 8,
+          "failed_local_visual_regions": 3,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 3,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unsupported-flat-spread-shadow",
+              "id": "s03.e0027",
+              "detail": "rgb(255, 227, 205) 0px 0px 0px 6px"
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.785314670138889,
+            "major": 0.020936414930555557,
+            "strong": 0.014913194444444444,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 15,
+          "failed_local_visual_regions": 3,
+          "failed_local_paint_regions": 4
+        },
+        {
+          "slide": 4,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.6006488715277776,
+            "major": 0.02092990451388889,
+            "strong": 0.011981336805555555,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 13,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 5,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.7073444733796297,
+            "major": 0.020955946180555556,
+            "strong": 0.013174913194444445,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 14,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 6,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.3813292100694445,
+            "major": 0.016927083333333332,
+            "strong": 0.00970703125,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 3,
+          "failed_local_visual_regions": 1,
+          "failed_local_paint_regions": 2
+        },
+        {
+          "slide": 7,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.24564453125,
+            "major": 0.017937282986111112,
+            "strong": 0.012080078125,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 13,
+          "failed_local_visual_regions": 3,
+          "failed_local_paint_regions": 6
+        },
+        {
+          "slide": 8,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unsupported-flat-spread-shadow",
+              "id": "s08.e0019",
+              "detail": "rgb(245, 167, 119) 0px 0px 0px 4px"
+            },
+            {
+              "code": "unsupported-flat-spread-shadow",
+              "id": "s08.e0020",
+              "detail": "rgb(245, 167, 119) 0px 0px 0px 4px"
+            },
+            {
+              "code": "unsupported-flat-spread-shadow",
+              "id": "s08.e0021",
+              "detail": "rgb(245, 167, 119) 0px 0px 0px 4px"
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.0342878327546297,
+            "major": 0.02115451388888889,
+            "strong": 0.012899305555555556,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 1
+        },
+        {
+          "slide": 9,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "unsupported-clipped-border",
+              "id": "s09.e0022",
+              "detail": "Clipping CSS box borders needs Boolean geometry; do not outline polygon"
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.291997974537037,
+            "major": 0.015068359375,
+            "strong": 0.010805121527777777,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 3,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 4
+        },
+        {
+          "slide": 10,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.0359132667824076,
+            "major": 0.015155164930555555,
+            "strong": 0.010848524305555555,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 7,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 8
+        },
+        {
+          "slide": 11,
+          "structural_html_pass": false,
+          "native_pass": false,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "id": "s11.e0026",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            },
+            {
+              "id": "s11.e0027",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            }
+          ],
+          "native_errors": [
+            {
+              "id": "s11.e0026",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            },
+            {
+              "id": "s11.e0027",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            }
+          ],
+          "parity_global": {
+            "mean": 2.4720189525462963,
+            "major": 0.017964409722222224,
+            "strong": 0.012705078125,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 2,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 2
+        },
+        {
+          "slide": 12,
+          "structural_html_pass": false,
+          "native_pass": false,
+          "parity_pass": false,
+          "html_errors": [
+            {
+              "code": "mixed-independent-text",
+              "id": "s12.e0048",
+              "text": "[개발 건]"
+            },
+            {
+              "code": "mixed-independent-text",
+              "id": "s12.e0050",
+              "text": "[개발 건]"
+            },
+            {
+              "code": "mixed-independent-text",
+              "id": "s12.e0052",
+              "text": "[개발 건]"
+            },
+            {
+              "code": "mixed-independent-text",
+              "id": "s12.e0054",
+              "text": "[개발 건]"
+            },
+            {
+              "id": "s12.e0010",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            },
+            {
+              "id": "s12.e0047",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0048",
+              "role": "text",
+              "count": 0
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0050",
+              "role": "text",
+              "count": 0
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0052",
+              "role": "text",
+              "count": 0
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0054",
+              "role": "text",
+              "count": 0
+            }
+          ],
+          "native_errors": [
+            {
+              "id": "s12.e0010",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            },
+            {
+              "id": "s12.e0047",
+              "code": "unsupported-writing-mode",
+              "detail": "vertical-rl"
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0048",
+              "role": "text",
+              "count": 0
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0050",
+              "role": "text",
+              "count": 0
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0052",
+              "role": "text",
+              "count": 0
+            },
+            {
+              "code": "source-native-coverage",
+              "id": "s12.e0054",
+              "role": "text",
+              "count": 0
+            }
+          ],
+          "parity_global": {
+            "mean": 2.487916304976852,
+            "major": 0.02019097222222222,
+            "strong": 0.012498914930555556,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 6,
+          "failed_local_visual_regions": 2,
+          "failed_local_paint_regions": 2
+        },
+        {
+          "slide": 13,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.7196162471064813,
+            "major": 0.017757161458333334,
+            "strong": 0.01298828125,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 4,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        }
+      ]
+    },
+    {
+      "reference": "architecture-visual-variants.html",
+      "reference_sha256": "581095ee13f450b539fae650a14f17563be8eaf0363c629cd5f657bbc5587cd1",
+      "status": "BLOCKED",
+      "diagnostic_font_substitutions": {
+        "Noto Sans KR": "Noto Sans CJK KR",
+        "JetBrains Mono": "DejaVu Sans Mono"
+      },
+      "font_errors": [],
+      "gates": {
+        "static": true,
+        "html": false,
+        "native": true,
+        "parity": false
+      },
+      "slides": 6,
+      "per_slide": {
+        "html": 5,
+        "native": 6,
+        "parity": 3
+      },
+      "original_artwork_pass": true,
+      "patterns": [
+        {
+          "slide": 1,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.7104716435185185,
+            "major": 0.018079427083333332,
+            "strong": 0.01203125,
+            "global_pass": false
+          },
+          "failed_local_text_regions": 1,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 2,
+          "structural_html_pass": false,
+          "native_pass": true,
+          "parity_pass": true,
+          "html_errors": [
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s02.e0005",
+              "rect": {
+                "x": 88.484375,
+                "y": 210.28125,
+                "w": 278.625,
+                "h": 338.390625
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            },
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s02.e0012",
+              "rect": {
+                "x": 389.390625,
+                "y": 210.28125,
+                "w": 512.6875,
+                "h": 338.390625
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            },
+            {
+              "code": "unresolved-adaptive-overflow",
+              "id": "s02.e0021",
+              "rect": {
+                "x": 924.359375,
+                "y": 210.28125,
+                "w": 278.625,
+                "h": 338.390625
+              },
+              "role": "content",
+              "reason": "",
+              "allowed": false
+            }
+          ],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 1.8253559027777777,
+            "major": 0.013266059027777779,
+            "strong": 0.008671875,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 3,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.264275896990741,
+            "major": 0.01688042534722222,
+            "strong": 0.009085286458333333,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 2
+        },
+        {
+          "slide": 4,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": true,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.0039391637731483,
+            "major": 0.015632595486111112,
+            "strong": 0.010543619791666667,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 5,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": false,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 2.13332935474537,
+            "major": 0.015773654513888888,
+            "strong": 0.010225694444444445,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 8,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        },
+        {
+          "slide": 6,
+          "structural_html_pass": true,
+          "native_pass": true,
+          "parity_pass": true,
+          "html_errors": [],
+          "native_errors": [],
+          "parity_global": {
+            "mean": 1.7840711805555556,
+            "major": 0.009972873263888888,
+            "strong": 0.006340060763888889,
+            "global_pass": true
+          },
+          "failed_local_text_regions": 0,
+          "failed_local_visual_regions": 0,
+          "failed_local_paint_regions": 0
+        }
+      ]
+    }
+  ]
+}

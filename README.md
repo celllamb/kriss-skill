@@ -29,6 +29,7 @@ Skill은 Codex가 특정 작업을 더 안정적으로 수행하도록 돕는 �
 | 스킬 | 구분 | 이런 때 사용하세요 |
 | --- | --- | --- |
 | `edit-hwpx-docs` | 범용 | 한컴 HWPX 문서에서 텍스트를 뽑거나, 간단한 문구를 바꾸거나, HWP2018에서 민감한 문단 레이아웃 참조까지 포함해 문서 패키지 구조를 검증해야 할 때 |
+| `kriss-ppt` | KRISS 전용 | KRISS 템플릿과 HTML 원본을 사용하여 발표자료를 작성하고, 최종 DOM geometry·computed style을 기준으로 편집 가능한 native PPTX를 생성·검증할 때 |
 | `kriss-trip-report` | KRISS 전용 | KRISS 국외출장보고서를 회의 자료, 발표자료, 일정표, 탑승권, 출입국 증빙, 사진, 전사본 등을 바탕으로 작성하거나, 작성된 보고서를 원자료와 대조 감사하고 HWPX 최종본을 검증해야 할 때 |
 | `official-docs-setup` | 범용 | 설치/실행 명령뿐 아니라 보고서, 계획서, 제안서, 발표자료에서 제품·서비스·표준·정책·프로그램 정보를 공식 문서 기준으로 확인하게 하고 싶을 때 |
 | `claude-review-loop` | 프로젝트·전역 설치 가능 | Claude Code 읽기 전용 리뷰를 요청하거나, Codex의 수정·테스트와 Claude 재리뷰를 반복할 때 |
@@ -50,7 +51,7 @@ GitHub Desktop은 명령어를 몰라도 저장소를 내려받고 업데이트�
 3. 웹브라우저에서 이 저장소 페이지를 엽니다.
 4. 초록색 `Code` 버튼을 누른 뒤 `Open with GitHub Desktop`을 선택합니다.
 5. 저장 위치를 고르고 `Clone`을 누릅니다.
-6. 내려받은 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop` 폴더가 있는지 확인합니다.
+6. 내려받은 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop`, `kriss-ppt` 폴더가 있는지 확인합니다.
 
 나중에 저장소가 업데이트되면 GitHub Desktop에서 이 저장소를 열고 최신 변경사항을 가져오면 됩니다. 자세한 절차는 GitHub 공식 문서의 [GitHub Desktop으로 저장소 복제하기](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-a-repository-from-github-to-github-desktop?platform=windows)를 참고하세요.
 
@@ -62,12 +63,12 @@ GitHub 웹사이트에서 ZIP으로 받는 방법:
 2. 초록색 `Code` 버튼을 누릅니다.
 3. `Download ZIP`을 선택합니다. (이 상태에서 받은 압축파일을 바로 codex에게 스킬 설치를 요청해도 됩니다.)
 4. 내려받은 ZIP 파일을 마우스 오른쪽 버튼으로 클릭한 뒤 `압축 풀기`를 선택합니다.
-5. 압축을 푼 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop` 폴더가 있는지 확인합니다.
+5. 압축을 푼 폴더 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop`, `kriss-ppt` 폴더가 있는지 확인합니다.
 
 이미 누군가에게 폴더를 전달받은 경우:
 
 1. 전달받은 폴더를 엽니다.
-2. 그 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop` 같은 스킬 폴더가 있는지 확인합니다.
+2. 그 안에 `edit-hwpx-docs`, `kriss-trip-report`, `official-docs-setup`, `claude-review-loop`, `kriss-ppt` 같은 스킬 폴더가 있는지 확인합니다.
 3. ZIP 파일로 전달받았다면 먼저 압축을 풉니다.
 
 #### 2. Codex skills 폴더 열기
@@ -107,7 +108,7 @@ cd kriss-skill
 ```powershell
 $skills = "$env:USERPROFILE\.codex\skills"
 New-Item -ItemType Directory -Force -Path $skills
-Copy-Item -Recurse -Force .\edit-hwpx-docs, .\kriss-trip-report, .\official-docs-setup, .\claude-review-loop $skills
+Copy-Item -Recurse -Force .\edit-hwpx-docs, .\kriss-trip-report, .\official-docs-setup, .\claude-review-loop, .\kriss-ppt $skills
 ```
 
 ```powershell
@@ -136,11 +137,39 @@ Use $edit-hwpx-docs. 이 HWPX 파일의 본문을 추출하고 요약해줘.
 Use $kriss-trip-report. 이 출장 자료 폴더를 바탕으로 국외출장보고서 초안을 만들어줘.
 Use $official-docs-setup. 이 프로젝트 실행 방법을 공식 문서 기준으로 정리해줘.
 Use $claude-review-loop. 이 저장소 변경을 구현하고 테스트한 뒤 Claude Code 읽기 전용 리뷰가 승인할 때까지 반복해줘.
+Use $kriss-ppt. 제공한 자료로 KRISS 템플릿을 적용한 HTML 발표자료를 작성하고 편집 가능한 PPTX를 검증해줘.
 ```
 
 `claude-review-loop`의 GitHub 배포 원본은 저장소 루트의 `claude-review-loop/`에 다른 스킬과 같은 구조로 포함되어 있습니다. 이 저장소에는 `.agent/` 또는 `.agents/` 복사본을 두지 않으며 해당 경로는 Git ignore 대상으로 유지합니다. 다른 저장소에서 프로젝트 전용 스킬 디렉터리를 사용하려면 그 대상 저장소의 정책에 따라 루트 `claude-review-loop/`를 설치하고, 전역 설치가 필요하면 `%USERPROFILE%\.codex\skills\claude-review-loop`에 복사할 수 있습니다. 전역 설치본의 runner를 직접 실행하려면 대상 저장소 루트에서 `python "$env:USERPROFILE\.codex\skills\claude-review-loop\scripts\run_review.py" --repo-root .`를 사용하고, POSIX에서는 `python3 "$HOME/.codex/skills/claude-review-loop/scripts/run_review.py" --repo-root .`를 사용합니다. 사용 시 Codex가 `.review/`에 임시 리뷰 상태를 기록하며, 이 디렉터리는 커밋하지 않습니다.
 
 ## 스킬별 안내
+
+### kriss-ppt
+
+**정식 배포판: 1.1.0 (2026-10-15).** KRISS 전용 발표자료 작성·수정 스킬입니다. HTML을 유일한 레이아웃 원본(source of truth)으로 삼아, 브라우저의 최종 DOM geometry와 computed style을 측정하고 이를 편집 가능한 PowerPoint 텍스트·도형·표현 객체로 변환합니다. PPTX 단계에서 임의 재배치·재디자인 또는 의미 있는 콘텐츠의 이미지 평탄화를 허용하지 않습니다.
+
+주요 기능은 KRISS canonical/variant 템플릿, 원본 아트워크 보존, adaptive 배치, speaker notes 및 텍스트 hyperlink의 native 변환, HTML–PPTX 렌더링 비교입니다. `STATIC → HTML → NATIVE → PARITY` 검증 관문을 모두 통과한 개별 발표자료만 `RELEASED`로 판정합니다. S11/S12 세로쓰기 등 미지원 표현은 명시적으로 차단하며, 정식 배포 상태가 모든 패턴과 모든 PowerPoint 환경에 대한 일괄 인증을 의미하지는 않습니다.
+
+**설치:** 저장소 루트의 `kriss-ppt/` 폴더를 `%USERPROFILE%\.codex\skills\kriss-ppt`에 복사합니다. 대용량 `references/reference.html` 원본은 Git에서 `reference.html.gz`로 무손실 보관되며, 최초 무결성 검사에서 원래 바이트 그대로 복원합니다. 압축 상태와 복원 결과를 SHA-256으로 확인합니다.
+
+```powershell
+cd "$env:USERPROFILE\.codex\skills\kriss-ppt"
+python scripts/verify_installation.py --strict
+python -m pip install -r requirements.txt -c constraints-tested.txt
+python -m playwright install chromium
+python scripts/check_environment.py --font "Noto Sans KR" --font "JetBrains Mono"
+python scripts/validate_html.py presentation.html
+python scripts/build_release.py presentation.html presentation.pptx
+```
+
+입력 HTML은 유지되며 성공 시 `presentation.final.html`, `presentation.pptx`, 검증 증거(`.evidence/`)를 생성합니다. Python 3.13 기반 검증 환경과 외부 실행 도구(Chromium, LibreOffice, Poppler, Fontconfig)·글꼴 요구사항은 [스킬 README](kriss-ppt/README.md) 및 [릴리스 상태](kriss-ppt/references/release-status.md)를 참조하십시오. Windows/macOS와 실제 Microsoft PowerPoint 앱의 호환성은 배포 대상 환경에서 별도로 확인해야 합니다.
+
+사용자 요청 예시:
+
+```text
+Use $kriss-ppt. 첨부한 자료를 이용해 KRISS 연구발표 슬라이드를 작성하고, HTML과 PPTX 렌더링 결과를 비교 검증해줘.
+Use $kriss-ppt. 기존 발표자료의 텍스트·그림을 보존하면서 슬라이드를 편집 가능한 native PPTX로 재작성해줘.
+```
 
 ### edit-hwpx-docs
 

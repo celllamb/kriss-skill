@@ -1,0 +1,6 @@
+# Observed direct-package combination on Python 3.13.5 / Linux.
+# This is not a transitive dependency lock or proof of a fresh network install.
+playwright==1.57.0
+python-pptx==1.0.2
+Pillow==12.3.0
+numpy==2.3.5
