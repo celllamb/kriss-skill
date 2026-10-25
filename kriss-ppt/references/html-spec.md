@@ -12,7 +12,7 @@ Every generated presentation includes all of the following features. These ensur
 - `references/reference.html` is the authoritative structural starting point, not only a style example.
 - Clone the selected canonical slide structure and replace content slots; do not rebuild template chrome from memory.
 - On cover slides, only `.cover-copy` is content-bearing. `.cover-logo`, `.cover-wordmark`, `.cover-anniv`, and the official cover background are immutable template elements.
-- Before validation, run `node scripts/enforce-reference-chrome.mjs presentation.html`.
+- Copy immutable template artwork and chrome from the canonical reference into the authored HTML; inspect the HTML before running `python scripts/validate_html.py presentation.html`. The build does not silently insert missing chrome.
 - Adaptive logic may resize content components but must not delete, hide, or reposition immutable KRISS template chrome.
 
 ## Required CDN Dependencies

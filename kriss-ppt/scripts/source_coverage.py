@@ -9,7 +9,7 @@ def check_coverage(source: dict, objects: list[dict], text: dict) -> dict:
         role, identity = node['role'], node['id']
         candidates = []
         if role == 'static-background':
-            candidates = [o for o in objects if o['kind'] == 'background']
+            candidates = [o for o in objects if o['kind'] in ('master-background','background')]
         elif role == 'text':
             owners = set(node['ancestors'])
             candidates = [o for o in objects if o['id'] in owners and o['kind'] in ('text', 'shape-text')]
@@ -43,8 +43,8 @@ def check_coverage(source: dict, objects: list[dict], text: dict) -> dict:
                           (o['id'] in owners and o['kind'] in ('text','shape-text'))]
         else:
             kinds = {
-                'paint': ('shape', 'shape-text'), 'image': ('image',),
-                'background-image': ('image',), 'svg-primitive': ('svg-shape', 'connector','svg-stroke'),
+                'paint': ('shape', 'shape-text'), 'image': ('image', 'master-image'),
+                'background-image': ('image','master-image'), 'svg-primitive': ('svg-shape', 'connector','svg-stroke'),
                 'generated': ('text', 'shape-text', 'shape'), 'list-marker': ('text',),
             }.get(role, ())
             candidates = [o for o in objects if o['id'] == identity and o['kind'] in kinds]

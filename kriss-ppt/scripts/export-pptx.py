@@ -30,6 +30,7 @@ from qa_common import compare_snapshots
 from PIL import Image
 from package_info import version_metadata
 from speaker_notes import write_notes, notes_equal
+from master_template import NativeMaster, TEMPLATE
 
 HERE=Path(__file__).resolve().parent
 VIEW=(1280,720)
@@ -123,9 +124,9 @@ def capture(html:Path,output:Path,chromium:str|None=None)->dict:
     final_html=html.with_name(html.stem+'.final.html');final_html.write_text(prepared,encoding='utf-8')
 
     browser_binary=chromium or os.environ.get('CHROMIUM_PATH') or shutil.which('chromium') or shutil.which('chromium-browser')
-    prs=Presentation();prs.slide_width=Inches(PPT[0]);prs.slide_height=Inches(PPT[1])
-    manifest={'schema':'kriss-ppt-evidence-v2',**version_metadata(),'static_preflight':static,'local_asset_sources':asset_records,'status':'EXPORTED_NOT_RELEASED','input':str(html), 'input_sha256':sha(html),'final_html':str(final_html),'final_html_sha256':sha(final_html),'slides':[], 'toolchain':{}, 'fonts':{}, 'warnings':[]}
-    for file in ['image_identity.py','package_info.py','export-pptx.py','visual_primitives.py','text-block-extract.js','browser-state.js','adaptive-runtime.js','generated-paint-extract.js','design_paint.py','paint_preflight.py','reference_fidelity.py','runtime_prepare.py','source-inventory.js','speaker_notes.py','source_coverage.py','resource_capture.py','validate_html.py','qa_common.py','build_release.py','asset_prepare.py','marker_capture.py','curved_paint.py','dom_snapshot.py','polygon_paint.py','reference_chrome.py']:
+    master=NativeMaster();prs=master.prs
+    manifest={'schema':'kriss-ppt-evidence-v2','native_template_sha256':master.sha256,'native_template_path':str(master.path),'native_template_families':master.family,**version_metadata(),'static_preflight':static,'local_asset_sources':asset_records,'status':'EXPORTED_NOT_RELEASED','input':str(html), 'input_sha256':sha(html),'final_html':str(final_html),'final_html_sha256':sha(final_html),'slides':[], 'toolchain':{}, 'fonts':{}, 'warnings':[]}
+    for file in ['master_template.py','master_typography.py','image_identity.py','package_info.py','export-pptx.py','visual_primitives.py','text-block-extract.js','browser-state.js','adaptive-runtime.js','generated-paint-extract.js','design_paint.py','paint_preflight.py','reference_fidelity.py','runtime_prepare.py','source-inventory.js','speaker_notes.py','source_coverage.py','resource_capture.py','validate_html.py','qa_common.py','build_release.py','asset_prepare.py','marker_capture.py','curved_paint.py','dom_snapshot.py','polygon_paint.py','reference_chrome.py']:
         manifest['toolchain'][file]=sha(HERE/file)
     manifest.update({key+'_relative':os.path.relpath(path,work) for key,path in [('input',html),('final_html',final_html),('pptx',output)]})
     manifest['reference_sha256']=sha(HERE.parent/'references/reference.html')
@@ -181,6 +182,9 @@ def capture(html:Path,output:Path,chromium:str|None=None)->dict:
             manifest['reference_chrome']['slides'].append(chrome_check)
             manifest['reference_chrome']['pass'] &= chrome_check['pass']
             original_background=chrome.original_asset_for(chrome_check)
+            if not original_background:
+                raise ValueError(f'Slide {i+1}: no verified KRISS reference family background')
+            family=chrome_check['family']
             after=page.evaluate((HERE/'text-block-extract.js').read_text(),i)
             bind_paint_order(after,{'elements':[],'svgLines':[],'svgShapes':[]},dom_paint)
             if text!=after:raise RuntimeError(f'Slide {i+1}: DOM changed during snapshot')
@@ -191,10 +195,11 @@ def capture(html:Path,output:Path,chromium:str|None=None)->dict:
             page.evaluate('i=>{const s=document.querySelectorAll(".slide")[i];for(const e of s.children){e.__krissVis=[e.style.getPropertyValue("visibility"),e.style.getPropertyPriority("visibility")];e.style.setProperty("visibility","hidden","important");}}',i)
             try:bg=page.locator('.slide').nth(i).screenshot(animations='disabled')
             finally:page.evaluate('i=>{for(const e of document.querySelectorAll(".slide")[i].children){const [v,p]=e.__krissVis;v?e.style.setProperty("visibility",v,p):e.style.removeProperty("visibility");delete e.__krissVis;}}',i)
-            s=prs.slides.add_slide(prs.slide_layouts[6])
-            background_bytes=original_background['bytes'] if original_background else bg
-            picture=s.shapes.add_picture(BytesIO(background_bytes),0,0,width=prs.slide_width,height=prs.slide_height);picture.name='kriss:background'
+            s,inherited=master.add_slide(family,original_background['sha256'])
+            # HTML artwork is complete, but the PPTX inherits the exact picture
+            # from its native master/layout. Never insert slide background bitmap.
             sx,sy=PPT[0]/text['deck']['w'],PPT[1]/text['deck']['h']
+            model['native_master']={'family':family,**inherited,'template_sha256':master.sha256}
             merged={b['id']:b for b in text['blocks'] if b['mergeVisual']}
             items=[]
             for e in visual['elements']:
@@ -206,7 +211,7 @@ def capture(html:Path,output:Path,chromium:str|None=None)->dict:
                     el=elements_by_id.get(b['id'],{})
                     items.append({'kind':'textblock','block':b,'order':int(b['id'].split('.e')[1].split('.')[0]),'stackPath':b.get('stackPath',el.get('stackPath',[0])),'domPaintOrder':b.get('domPaintOrder')})
             items+=visual['svgLines']+visual['svgShapes'];items.sort(key=vp.zkey)
-            objects=[{'id':f's{i+1:02d}.background','kind':'background','shape_id':picture.shape_id}]
+            objects=[{'id':f's{i+1:02d}.background','kind':'master-background','shape_id':inherited['background_shape_id'],'native_source':inherited['background_owner'],'layout_index':inherited['layout_index'],'asset_sha256':original_background['sha256']}]
             for e in items:
                 if e['kind']=='svgshape':
                     sh=vp.add_svg_shape(s,e,sx,sy);objects.append({'id':e['id'],'kind':'svg-shape','shape_id':sh.shape_id});continue
@@ -230,13 +235,19 @@ def capture(html:Path,output:Path,chromium:str|None=None)->dict:
                     write_text(s,merged[e['id']],sx,sy,shape=sh)
                 for src in ([e['backgroundUrl']] if e.get('backgroundUrl') else [])+([e['src']] if e['tag']=='img' and e.get('src') else []):
                     asset=assets.get(src)
+                    inherited_picture=master.identify_inherited_picture(s,e,asset,sx,sy)
+                    if inherited_picture:
+                        inherited_picture['layout_index']=inherited['layout_index']
+                        objects.append(inherited_picture)
+                        continue
                     ok=vp.add_picture_stream(s,BytesIO((work/asset['path']).read_bytes()),x,y,w,h) if asset else False
                     if not ok:manifest['warnings'].append({'slide':i+1,'code':'missing-image','id':e['id']})
                     else:s.shapes[-1].name='kriss:image:'+e['id'];objects.append({'id':e['id'],'kind':'image','shape_id':s.shapes[-1].shape_id})
             write_notes(s,source)
+            model['native_objects']=objects
             model['coverage']=check_coverage(source,objects,text)
             write_json(mp,model)
-            manifest['slides'].append({'slide':i+1,'html_snapshot':hp.name,'html_snapshot_sha256':sha(hp),'model':mp.name,'model_sha256':sha(mp),'original_background_sha256':original_background['sha256'] if original_background else None,'background_mode':'original-reference-bytes' if original_background else 'static-browser-background','objects':objects,'warnings':text['warnings']})
+            manifest['slides'].append({'slide':i+1,'html_snapshot':hp.name,'html_snapshot_sha256':sha(hp),'model':mp.name,'model_sha256':sha(mp),'original_background_sha256':original_background['sha256'] if original_background else None,'background_mode':'native-master-inheritance','objects':objects,'warnings':text['warnings']})
             for font in text['fontFamilies']:
                 if font not in manifest['fonts']:
                     if shutil.which('fc-match'):
@@ -279,6 +290,7 @@ def capture(html:Path,output:Path,chromium:str|None=None)->dict:
             reopen.append({'slide':n+1,'source_geometry_equal':geometry_equal,'computed_styles_equal':styles_equal,'speaker_notes_equal':speaker_notes_equal,'snapshot_equal':snapshot_equal,'snapshot':rp.name,'render_parity':render_parity,'pass':geometry_equal and styles_equal and speaker_notes_equal and render_parity['pass']})
         manifest['html_reopen']={'pass':all(x['pass'] for x in reopen),'slides':reopen}
         replay.close();chrome.close();browser.close()
+    master.verify_output(prs)
     prs.save(output);manifest['pptx']=str(output);manifest['pptx_sha256']=sha(output)
     write_json(work/'manifest.json',manifest)
     print(f'EXPORTED (release QA still required): {count} slides; {output}')

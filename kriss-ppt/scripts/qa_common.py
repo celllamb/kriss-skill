@@ -9,6 +9,7 @@ from pptx import Presentation
 from pptx.oxml.ns import qn
 from speaker_notes import check_native_notes, validate_notes_source
 from image_identity import check_native_images
+from master_template import NativeMaster, TEMPLATE, digest
 
 EMU=914400
 
@@ -39,6 +40,7 @@ def verify_inputs(pptx: Path, evidence: Path):
     for key in ('input','final_html'):
         bound(attested_path(m,key,evidence),m.get(key+'_sha256'),key)
     bound(Path(pptx),m.get('pptx_sha256'),'PPTX')
+    bound(TEMPLATE,m.get('native_template_sha256'),'KRISS native template')
     for slide in m.get('slides',[]):
         label='slide '+str(slide.get('slide','?'))
         model_path=evidence/slide.get('model','missing')
@@ -70,11 +72,30 @@ def native_qa(pptx:Path,evidence:Path)->dict:
         image_check=check_native_images(slide,model,sx,sy)
         bad.extend(image_check['errors'])
         names={}
-        expected_background=rec.get('original_background_sha256')
-        if expected_background:
-            backgrounds=[sh for sh in slide.shapes if sh.name=='kriss:background']
-            if len(backgrounds)!=1 or not hasattr(backgrounds[0],'image') or hashlib.sha256(backgrounds[0].image.blob).hexdigest()!=expected_background:
-                bad.append({'error':'original template image bytes changed inside PPTX'})
+        native=model.get('native_master',{})
+        if not native or rec.get('background_mode')!='native-master-inheritance':
+            bad.append({'error':'missing native master inheritance record'})
+        else:
+            li=native.get('layout_index')
+            if not isinstance(li,int) or not (0<=li<len(prs.slide_layouts)) or slide.slide_layout!=prs.slide_layouts[li]:
+                bad.append({'error':'wrong native KRISS slide layout'})
+            inherited_owner=slide.slide_layout.slide_master if native.get('background_owner')=='master' else slide.slide_layout
+            images=[sh for sh in inherited_owner.shapes if sh.shape_type==13 and hashlib.sha256(sh.image.blob).hexdigest()==native.get('asset_sha256')]
+            if len(images)!=1:
+                bad.append({'error':'original inherited background missing or changed'})
+            if any(sh.name=='kriss:background' for sh in slide.shapes):
+                bad.append({'error':'duplicate slide-level template background is forbidden'})
+            for obj in rec['objects']:
+                if obj['kind']!='master-image':continue
+                owners=[sh for sh in slide.slide_layout.shapes if sh.shape_type==13 and sh.shape_id==obj['shape_id']]
+                if len(owners)!=1 or hashlib.sha256(owners[0].image.blob).hexdigest()!=obj['image_sha256']:
+                    bad.append({'error':'inherited image bytes/owner mismatch','id':obj['id']})
+                else:
+                    inherited_shape=owners[0]
+                    px_rect={'x':inherited_shape.left/EMU/sx,'y':inherited_shape.top/EMU/sy,
+                             'w':inherited_shape.width/EMU/sx,'h':inherited_shape.height/EMU/sy}
+                    if max(abs(px_rect[k]-obj['rect'][k]) for k in px_rect)>2.0:
+                        bad.append({'error':'inherited image rectangle mismatch','id':obj['id']})
         for sh in slide.shapes:names.setdefault(sh.name,[]).append(sh)
         expected={b['id'] for b in tm['blocks']}
         for b in tm['blocks']:
@@ -179,8 +200,9 @@ def native_qa(pptx:Path,evidence:Path)->dict:
         if not model.get('source'):
             bad.append({'error':'missing independent source inventory'})
         else:
-            live=[]
+            live=[obj for obj in rec['objects'] if obj['kind'] in ('master-background','master-image')]
             for obj in rec['objects']:
+                if obj['kind'] in ('master-background','master-image'):continue
                 hits=[sh for sh in slide.shapes if sh.shape_id==obj['shape_id']]
                 expected_name=('kriss:background' if obj['kind']=='background' else
                     'kriss:image:'+obj['id'] if obj['kind']=='image' else 'kriss:'+obj['id'])
@@ -212,7 +234,7 @@ def native_qa(pptx:Path,evidence:Path)->dict:
         # Images and visuals are verified by correspondence, not a token text count.
         actual_ids={sh.shape_id for sh in slide.shapes}
         for obj in rec['objects']:
-            if obj['shape_id'] not in actual_ids:bad.append({'id':obj['id'],'error':'missing mapped object'})
+            if obj['kind'] not in ('master-background','master-image') and obj['shape_id'] not in actual_ids:bad.append({'id':obj['id'],'error':'missing mapped object'})
         rows.append({'slide':rec['slide'],'expected_text_blocks':len(tm['blocks']),'speaker_notes':notes_check,'images':image_check,'native_connectors':sum(not bool(x.get('strokePolygon')) for x in source_lines),'native_svg_strokes':sum(bool(x.get('strokePolygon')) for x in source_lines),'errors':bad,'pass':not bad})
     return {'pass':not errors and all(r['pass'] for r in rows),'errors':errors,'slides':rows}
 

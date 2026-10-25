@@ -26,3 +26,16 @@ redesign. Main build command: `python scripts/build_release.py input.html out.pp
 ## 1.1.0-rc3 source coverage
 
 Each source role must map to a native object identifier, independently of exporter traversal. Shared text ownership is allowed only inside its coherent native text block. Basic SVG shapes and solid curved CSS paint have native support; unsupported SVG paths/filters/masks remain blockers. Full-slide static template chrome is not permission to flatten meaningful content. Reopen checks and native/global/local pixel QA are mandatory. A retained PPTX beside a new failed manifest is not approved.
+
+
+## 1.2.0-rc3 — native master inheritance
+
+`reference.html` remains the complete HTML scene (including all artwork). The
+PowerPoint writer starts with the original `kriss-wide-master.pptx`, removes its
+demo slide references, and binds each authored slide to an existing original
+layout. Family mappings are source-asset asserted, not guessed from slide
+numbers. An inherited full background is not a slide-level picture. Original
+layout images (cover logos) are mapped only after checking source byte hash and
+DOM-final geometry (2 px tolerance); otherwise fail closed on duplicate native
+artwork with conflicting coordinates. Source inventory and native QA require
+owner equivalence. All global/local pixel tolerances are unchanged.

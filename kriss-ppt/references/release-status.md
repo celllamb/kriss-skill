@@ -1,23 +1,16 @@
-# Stable distribution status — 1.1.0 (2026-10-15)
+# v1.2.0-rc3 — local candidate, 2026-10-24
 
-**Release designation:** stable/production distribution, promoted from
-`1.1.0-rc3+ophthagen.1` on the maintainer's confirmation that external
-verification was completed. Those external verification logs were not
-provided with this installation package and are not reproduced here.
+Status: **RELEASE CANDIDATE — not a production release.** Historical v1.1.0-rc3+ophthagen.1 source was the accessible base; earlier v1.2.0-rc2 archive was unavailable for byte-wise comparison. No claim of binary equivalence to earlier rc2.
 
-**Scope of the release:** supported patterns and workflows only. Every
-presentation still must pass STATIC → HTML → NATIVE → PARITY before it can be
-reported as `RELEASED`. Known unsupported vertical-writing structures (S11/S12)
-and other documented HTML/PPTX differences remain blocked, rather than silently
-rasterized, redesigned, or labeled as passed. The per-pattern diagnostic table
-below describes historical rc3 execution; it is not an execution report for
-this stable version. The Microsoft PowerPoint application must be validated
-separately for deployment environments that require it.
+New capability: retain full master artwork in authoring/delivered HTML, inherit original KRISS PPTX slide master or native layout picture in PPTX (family mapping cover 0, standard 10, divider 6), and deduplicate only matching layout images. Master SHA-256 and image SHA-256 are checked. Original KRISS master typography is verified from XML: 나눔바른고딕, 28 pt standard title, 40 pt cover title, body levels 28/24/20/18/18 pt.
 
-The distribution's only functional difference from its immediate RC source is
-release metadata/documentation, byte-preserving compressed canonical-reference
-transport and the regenerated integrity manifest. No reference artwork bytes,
-adaptive rule, PPTX exporter, or visual tolerance was changed.
+Three-slide local diagnostic with original template background and cover logos:
+- STATIC: PASS
+- HTML/re-open: PASS
+- NATIVE: PASS
+- PARITY: FAIL
+
+The diagnostic contains slides representing cover, standard and divider, not all bundled 53 canonical/variant patterns. No relaxation of global/local thresholds. S11/S12 vertical writing, unsupported SVG/CSS forms and Microsoft PowerPoint app compatibility remain unverified/blocked as described in the historical status below. Every deck must pass all gates before RELEASED.
 
 ---
 

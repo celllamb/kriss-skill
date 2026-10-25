@@ -10,3 +10,10 @@ __pycache__/
 .venv/
 node_modules/
 .DS_Store
+
+# Original authoritative template is an intentional PPTX skill asset.
+
+# Generated verbatim from repository transports by verify_installation.py.
+references/kriss-wide-master.pptx
+references/source-native-visual-variants.html
+references/reference.html

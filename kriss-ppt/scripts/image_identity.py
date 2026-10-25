@@ -22,6 +22,7 @@ def check_native_images(slide, model: dict, sx: float, sy: float) -> dict:
             sources.append(element['src'])
         for src in sources:
             expected.append((element, src))
+    inherited={o['id']:o for o in model.get('native_objects',[]) if o['kind']=='master-image'}
     expected_names = Counter('kriss:image:' + e['id'] for e, _ in expected)
     # One owner with two image layers needs explicit layer IDs. Do not silently
     # guess the relation from z-order or treat one image as coverage for both.
@@ -30,6 +31,13 @@ def check_native_images(slide, model: dict, sx: float, sy: float) -> dict:
             errors.append({'id': name, 'error': 'ambiguous captured image layers', 'count': count})
     for element, src in expected:
         identity = element['id']
+        if identity in inherited:
+            record=inherited[identity]
+            asset=model.get('assets',{}).get(src)
+            if not asset or record.get('image_sha256')!=asset.get('sha256'):
+                errors.append({'id':identity,'error':'inherited layout picture digest mismatch'})
+            checked+=1
+            continue
         name = 'kriss:image:' + identity
         hits = [s for s in slide.shapes if s.name == name]
         if len(hits) != 1:

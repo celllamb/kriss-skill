@@ -39,12 +39,14 @@ def verify(root: Path, strict: bool = False) -> dict:
                               object_pairs_hook=unique_object)
         if not isinstance(manifest, dict):
             raise ValueError("Manifest must be an object")
-        # The 7.7 MB canonical HTML is materialized from a compressed,
-        # byte-identical repository transport and verified on every check.
         generated = manifest.get('generated_files', {})
         if generated:
-            if generated.keys() != {'references/reference.html'}:
-                raise ValueError('Unexpected generated file list')
+            if set(generated) != {
+                'references/reference.html',
+                'references/source-native-visual-variants.html',
+                'references/kriss-wide-master.pptx',
+            }:
+                raise ValueError('Unexpected generated file inventory')
             restore()
         files = manifest.get("files")
         if not isinstance(files, dict) or not files:

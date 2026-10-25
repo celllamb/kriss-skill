@@ -1,4 +1,4 @@
-# Original KRISS artwork contract — 1.1.0-rc3
+# Original KRISS artwork contract — 1.2.0-rc3
 
 ## Authority
 
@@ -27,15 +27,9 @@ header/footer remain visible. H02–H06 no longer have synthetic `.template-dot`
 `.template-footer`, or a replacement slide `::before` band. Standard title wrapper
 and span rules are derived from canonical CSS, not a separately tuned imitation.
 
-For the known older variant HTML, the explicit authoring migration is:
-
-```bash
-python scripts/sync_reference_chrome.py old.html --output restored.html
-```
-
-Review `restored.html` before export. The helper is idempotent. It only removes
-recognized legacy reconstruction selectors and empty reconstruction nodes;
-unknown user content is retained. It is **not** run implicitly by `build_release`.
+For older variant HTML, compare immutable title and background artwork with
+`references/reference.html` and update the authored HTML explicitly. The
+release command does not silently repair noncanonical chrome.
 
 ## Read-only release checks
 
@@ -44,14 +38,14 @@ unknown user content is retained. It is **not** run implicitly by `build_release
    The reference content and title text slots, small bottom pattern annotations,
    and blank margins are excluded. Selected original artwork ink has zero pixel
    difference tolerance. This is an artwork check, not a whole-slide identity test.
-3. When authored image and placement match, embed those same original bytes in
-   the PPTX background picture and verify the embedded media hash. A wrong HTML
+3. When authored image and placement match, **inherit** the original PPTX
+   master or layout background image, and verify the native owner's media SHA-256.
+   Never insert one full-slide picture per slide in the native PPTX. A wrong HTML
    background is **not** secretly replaced during export; it blocks release.
 4. All existing semantic/native/global/local render gates remain mandatory with
    unchanged thresholds. Passing artwork preservation is not pattern certification.
 
-Reference assets, background check, authoring helper, and schema belong in the
-skill. Development tests and execution evidence are maintained outside the
+Reference assets, background check, and schema belong in the skill. Development tests and execution evidence are maintained outside the
 installation-only repository and are not required to use the installed skill.
 
 Standard-title geometry is measured after each slide becomes active and settles.

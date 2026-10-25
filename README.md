@@ -146,18 +146,18 @@ Use $kriss-ppt. 제공한 자료로 KRISS 템플릿을 적용한 HTML 발표자�
 
 ### kriss-ppt
 
-**정식 배포판: 1.1.0 (2026-10-15).** KRISS 전용 발표자료 작성·수정 스킬입니다. HTML을 유일한 레이아웃 원본(source of truth)으로 삼아, 브라우저의 최종 DOM geometry와 computed style을 측정하고 이를 편집 가능한 PowerPoint 텍스트·도형·표현 객체로 변환합니다. PPTX 단계에서 임의 재배치·재디자인 또는 의미 있는 콘텐츠의 이미지 평탄화를 허용하지 않습니다.
+**배포 후보: 1.2.0-rc3 (2026-10-25).** KRISS 전용 발표자료 작성·수정 스킬입니다. HTML을 유일한 레이아웃 원본(source of truth)으로 삼아, 브라우저의 최종 DOM geometry와 computed style을 측정하고 이를 편집 가능한 PowerPoint 텍스트·도형·표현 객체로 변환합니다. PPTX 단계에서 임의 재배치·재디자인 또는 의미 있는 콘텐츠의 이미지 평탄화를 허용하지 않습니다.
 
-주요 기능은 KRISS canonical/variant 템플릿, 원본 아트워크 보존, adaptive 배치, speaker notes 및 텍스트 hyperlink의 native 변환, HTML–PPTX 렌더링 비교입니다. `STATIC → HTML → NATIVE → PARITY` 검증 관문을 모두 통과한 개별 발표자료만 `RELEASED`로 판정합니다. S11/S12 세로쓰기 등 미지원 표현은 명시적으로 차단하며, 정식 배포 상태가 모든 패턴과 모든 PowerPoint 환경에 대한 일괄 인증을 의미하지는 않습니다.
+주요 기능은 KRISS canonical/variant 템플릿, 원본 아트워크 보존, adaptive 배치, speaker notes 및 텍스트 hyperlink의 native 변환, HTML–PPTX 렌더링 비교입니다. `STATIC → HTML → NATIVE → PARITY` 검증 관문을 모두 통과한 개별 발표자료만 `RELEASED`로 판정합니다. S11/S12 세로쓰기 등 미지원 표현은 명시적으로 차단하며, RC 단계이며 전체 패턴과 모든 PowerPoint 실행 환경에 대한 일괄 인증은 아닙니다.
 
-**설치:** 저장소 루트의 `kriss-ppt/` 폴더를 `%USERPROFILE%\.codex\skills\kriss-ppt`에 복사합니다. 대용량 `references/reference.html` 원본은 Git에서 `reference.html.gz`로 무손실 보관되며, 최초 무결성 검사에서 원래 바이트 그대로 복원합니다. 압축 상태와 복원 결과를 SHA-256으로 확인합니다.
+**설치:** 저장소 루트의 `kriss-ppt/` 폴더를 `%USERPROFILE%\.codex\skills\kriss-ppt`에 복사합니다. 대용량 HTML 레퍼런스와 KRISS 원본 master PPTX는 Git에서 gzip/XZ 및 분할된 무손실 전송 파일로 보관되며, 최초 무결성 검사에서 원래 바이트 그대로 복원합니다. 복원 결과를 SHA-256으로 확인합니다.
 
 ```powershell
 cd "$env:USERPROFILE\.codex\skills\kriss-ppt"
 python scripts/verify_installation.py --strict
 python -m pip install -r requirements.txt -c constraints-tested.txt
 python -m playwright install chromium
-python scripts/check_environment.py --font "Noto Sans KR" --font "JetBrains Mono"
+python scripts/check_environment.py --font "나눔바른고딕" --font "JetBrains Mono"
 python scripts/validate_html.py presentation.html
 python scripts/build_release.py presentation.html presentation.pptx
 ```

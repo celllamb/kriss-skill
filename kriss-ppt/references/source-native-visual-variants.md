@@ -34,5 +34,4 @@ Use them as **optional** references. They do not automatically replace the 25 ca
 - Keep KRISS typography, spacing discipline, and adaptive density rules from the main skill.
 - When a canonical pattern already fits cleanly, prefer it unless the source-native pattern provides a clearer structure.
 
-The JPEG montage is a derivative RC2 browser preview using diagnostic installed
-fonts, not a second layout authority. Always use the HTML and original artwork.
+The HTML reference and original artwork are the sole layout authority.

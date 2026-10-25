@@ -5,9 +5,9 @@ description: Produce and revise KRISS presentations using HTML as the only layou
 
 # KRISS PPT
 
-## Stable distribution — 1.1.0
+## Release scope — 1.2.0-rc3 (runtime-only package)
 
-This is the stable distribution of the supported KRISS PPT workflow, promoted from 1.1.0-rc3+ophthagen.1 after external verification reported by the maintainer. Stable distribution does not certify every bundled visual pattern or every PowerPoint environment.
+This is a release candidate, not certification of all bundled design patterns.
 Read `references/release-status.md` and `references/pattern-support.json` before
 selecting a pattern. “Approved” names refer to design authority, not a passing
 native export test. S11/S12 vertical writing is unsupported: retain the original references, but do not select those structures for a completed native deck until implemented and verified. Do not conceal a remaining gate failure or lower tolerances.
@@ -27,7 +27,7 @@ A deck is complete only when native-object QA and HTML/PPTX render parity both p
 3. When multiple patterns fit, briefly compare two alternatives. Diversity is a
    tie-breaker only. Neither a fixed DOM clone nor an invented generic card grid is
    mandatory. Record the chosen reference and any intentional departure.
-4. Read `references/original-artwork-contract.md`. Preserve original KRISS chrome/assets; use the original image bytes, not redrawn title motifs or footer bands. Use the selected reference's geometry,
+4. Read `references/native-master-contract.md` and `references/original-artwork-contract.md`. The HTML **must contain every master visual**; the PPTX exporter must instead inherit exact original artwork from `references/kriss-wide-master.pptx` (not duplicate a background picture on each slide). Matched layout logos are mapped by byte hash and position. Use the original image bytes, not redrawn title motifs or footer bands. Use the selected reference's geometry,
    spacing, typography, border, radius, shadow, and connector style as defaults.
    Do not replace the pattern to repair a local text inset or export error.
    Read `references/content-image-contract.md` when reusing figures from source decks. Preserve original bytes and scientific labels; do not reconstruct data from plotted pixels.
@@ -54,20 +54,23 @@ python scripts/validate_html.py presentation.html
 python scripts/build_release.py presentation.html presentation.pptx
 ```
 
-The integrity command materializes byte-identical `references/reference.html` from the compressed Git transport on the first run; the restored SHA-256 is checked against `PACKAGE-MANIFEST.json`. Do not manually alter this canonical reference.
-
 The build preserves the input and writes `<input>.final.html` beside it (with permitted local
 image/CSS/script bytes embedded; font bytes are never embedded), `<output>.pptx`, and `<output>.evidence/` with captured models,
 HTML images, PPTX renders, comparisons, QA JSON and a manifest. `RELEASED` requires
 HTML, native correspondence and global/local parity to pass. Missing tools/fonts,
 unsupported rendering, or failed gates produce `BLOCKED` or `BUILD_ERROR` and exit 1.
 
-Reference/core helpers remain opt-in authoring aids. They are **not** automatically
-run on the user's original HTML during release; their edits must be reviewed first.
+Authoring corrections are made and reviewed in the source HTML, not silently
+introduced by the release command.
 
 ## Reference title and native design defaults
 
-Read `references/design-paint-contract.md`. Standard titles use the reference's
+Read `references/design-paint-contract.md` and `references/native-master-contract.md`.
+Master typography is extracted read-only by `python scripts/master_typography.py`:
+NanumBarunGothic (나눔바른고딕), standard title 28 pt, cover title 40 pt,
+body style levels 28/24/20/18/18 pt. The HTML reference implements the
+main title styles. Detailed figure labels may retain an explicitly authored
+smaller size rather than being uniformly inflated. Standard titles use the reference's
 `.kriss-title` wrapper and span styles, or an explicit
 `data-reference-role="standard-title"` binding. Their color is white on the dark
 bar, but color alone is not fidelity: compare font family/size/weight/style,
@@ -187,7 +190,7 @@ HTML → adaptive DOM → native mapping → renderer. Do not guess from PPTX al
 
 ## Installation-only distribution
 
-The repository contains this installable `kriss-ppt/` directory only. Runtime QA stays; development tests, CI, generated decks and evidence are not installation dependencies. Read runtime identity from `VERSION`; `PACKAGE-MANIFEST.json` verifies the inventory. Historical validation and this package's actual re-tests are distinguished in `references/release-status.md`.
+The distributable consists solely of this `kriss-ppt/` directory. Runtime QA stays; development tests, CI, generated decks and evidence are not installation dependencies. Read runtime identity from `VERSION`; `PACKAGE-MANIFEST.json` verifies the inventory. Historical validation and this package's actual re-tests are distinguished in `references/release-status.md`.
 
 ## External text references (rc3+gpn.1)
 
@@ -195,8 +198,8 @@ Source citations that are HTML anchors must remain native text hyperlinks. Use
 absolute HTTP(S) URLs for academic references. Inspect both URL identity and
 visible HTML–PPTX parity; underlined pixels alone are not link preservation.
 See `references/hyperlink-contract.md` for supported forms and explicit blocks.
-This functionality was introduced in the preceding `+gpn.1` candidate;
-its historical test report does not imply whole-pattern certification.
+The `+gpn.1` build is a local rc3-based functional correction, not whole-pattern
+recertification or a stable release.
 
 
 ## Source-bound speaker notes
@@ -206,5 +209,5 @@ The native notes body must match exactly, including Unicode, paragraphs, blank
 lines and whitespace. The delivered HTML reread must reproduce the same notes.
 Missing, changed or unreadable notes block approval even when slide pixels match.
 See `references/speaker-notes-contract.md`. Rebuild older evidence without this
-contract rather than treating a missing notes record as a pass. This distribution includes the earlier hyperlink fixes; stable release
-status does not waive per-deck validation or certify all patterns.
+contract rather than treating a missing notes record as a pass. This local update
+includes the earlier hyperlink fixes; it does not re-certify all patterns.

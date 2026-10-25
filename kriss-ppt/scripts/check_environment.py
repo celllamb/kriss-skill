@@ -41,8 +41,6 @@ def probe(chromium: str | None = None, fonts: list[str] | None = None) -> dict:
                   version=((version.stdout+version.stderr).strip().splitlines()[0] if version else None))
         except (OSError,subprocess.SubprocessError) as error:
             check(name,False,path=exe,error=str(error))
-    node=shutil.which('node')
-    report['optional_node']={'path':node,'required_for':'*.mjs authoring/CLI helpers only; Python release does not require Node'}
     browser_path=chromium or os.environ.get('CHROMIUM_PATH') or shutil.which('chromium') or shutil.which('chromium-browser')
     try:
         from playwright.sync_api import sync_playwright
