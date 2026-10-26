@@ -46,7 +46,8 @@ def restore() -> dict:
     result = {}
     key = "references/reference.html"
     result[key] = _restore_one(key, gzip.decompress(
-        (ROOT / "references/reference.html.gz").read_bytes()), generated[key])
+        b"".join((ROOT / f"references/reference.html.gz.part{i:02d}").read_bytes()
+                 for i in range(4))), generated[key])
     key = "references/source-native-visual-variants.html"
     result[key] = _restore_one(key, lzma.decompress(
         (ROOT / "references/source-native-visual-variants.html.xz").read_bytes()), generated[key])

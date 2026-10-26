@@ -8,7 +8,7 @@ HTML을 유일한 source of truth로 삼아 최종 DOM geometry와 computed styl
 
 아래 검증용 설치 조합에는 Python 3.13을 사용합니다. 이번 실행에서 확인한 버전은 Python 3.13.5/Linux입니다. 소스의 최소 문법 수준은 Python 3.10이지만, 다른 Python 버전의 의존성 조합은 검증하지 않았습니다. Windows/macOS 및 Microsoft PowerPoint 실제 앱은 검증하지 않았습니다.
 
-먼저 `kriss-ppt/` 디렉터리로 이동합니다. GitHub 체크아웃에서는 전송 제한을 피하기 위해 원본 마스터 PPTX가 4개 무손실 XZ 조각으로, 소스 HTML variation이 XZ로 보관되어 있습니다. 아래 검사 과정에서 표준 라이브러리만으로 원래의 `kriss-wide-master.pptx` 및 HTML을 **바이트 단위로 동일하게 복원**하며 SHA-256을 검증합니다. 기존 `reference.html`도 gzip에서 복원합니다. 원본 데이터·슬라이드 마스터는 변형되지 않습니다. ZIP 압축 해제 직후에도 동일한 명령을 사용하십시오. 이 검사는 외부 Python 패키지가 필요하지 않습니다.
+먼저 `kriss-ppt/` 디렉터리로 이동합니다. GitHub 체크아웃에서는 전송 제한을 피하기 위해 원본 마스터 PPTX가 4개 무손실 XZ 조각으로, 소스 HTML variation이 XZ로 보관되어 있습니다. 아래 검사 과정에서 표준 라이브러리만으로 원래의 `kriss-wide-master.pptx` 및 HTML을 **바이트 단위로 동일하게 복원**하며 SHA-256을 검증합니다. 기존 `reference.html`도 4개의 분할 gzip 전송 파일에서 무손실 복원합니다. 원본 데이터·슬라이드 마스터는 변형되지 않습니다. ZIP 압축 해제 직후에도 동일한 명령을 사용하십시오. 이 검사는 외부 Python 패키지가 필요하지 않습니다.
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python scripts/verify_installation.py --strict
